@@ -20,7 +20,7 @@ var errPartialIACIACWrite = errors.New("Partial IAC IAC write.")
 //
 // In the TELNET protocol byte value 255 is special.
 //
-// The TELNET protocol calls byte call 255: "IAC". Which is short for "interpret as command".
+// The TELNET protocol calls byte value 255: "IAC". Which is short for "interpret as command".
 //
 // The TELNET protocol also has a distinction between 'data' and 'commands'.
 //
