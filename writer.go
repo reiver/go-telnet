@@ -50,7 +50,7 @@ type DataWriter struct {
 }
 
 
-// NewDataWriter creates a new Writer writing to 'w'.
+// NewDataWriter creates a new DataWriter writing to 'w'.
 //
 // 'w' receives what is written to the DataWriter but escaped according to
 // the TELNET protocol.
