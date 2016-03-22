@@ -2,6 +2,8 @@ package telnet
 
 
 import (
+	"github.com/reiver/go-oi"
+
 	"io"
 )
 
@@ -19,10 +21,19 @@ func (handler internalEchoHandler) ServeTELNET(ctx Context, w io.Writer, r io.Re
 	writer := NewDataWriter(w)
 	reader := NewDataReader(r)
 
-	//@TODO: Will this overflow somehow if the 'written' goes past the int64 limit?
-	_, err := io.Copy(writer, reader)
-	if nil != err {
-		//@TODO: Is panic()ing what we really want to do here?
-		panic(err)
+
+	var buffer [1]byte // Seems like the length of the buffer needs to be small, otherwise will have to wait for buffer to fill up.
+	p := buffer[:]
+
+	for {
+		n, err := reader.Read(p)
+
+		if n > 0 {
+			oi.LongWrite(writer, p[:n])
+		}
+
+		if nil != err {
+			break
+		}
 	}
 }
