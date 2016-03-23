@@ -1,10 +1,7 @@
 /*
-Package telnet provides TELNET client and server implementations.
-
-The API this package provide was intentionally designed to seem similar to the
-the standard "net/http" Go library.
-
-Including the ability to create "middleware".
+Package telnet provides TELNET client and server implementations
+in a style similar to the "net/http" library that is part of the Go standard library,
+including support for "middleware".
 
 TELNET Server
 
