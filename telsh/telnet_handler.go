@@ -57,6 +57,14 @@ func (telnetHandler *ShellHandler) Register(name string, producer Producer) erro
 	return nil
 }
 
+func (telnetHandler *ShellHandler) MustRegister(name string, producer Producer) *ShellHandler {
+	if err := telnetHandler.Register(name, producer); nil != err {
+		panic(err)
+	}
+
+	return telnetHandler
+}
+
 
 func (telnetHandler *ShellHandler) RegisterElse(producer Producer) error {
 
@@ -65,6 +73,14 @@ func (telnetHandler *ShellHandler) RegisterElse(producer Producer) error {
 	telnetHandler.muxtex.Unlock()
 
 	return nil
+}
+
+func (telnetHandler *ShellHandler) MustRegisterElse(producer Producer) *ShellHandler {
+	if err := telnetHandler.RegisterElse(producer); nil != err {
+			panic(err)
+	}
+
+	return telnetHandler
 }
 
 
