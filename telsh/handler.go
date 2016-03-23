@@ -8,7 +8,7 @@ import (
 
 // Hander is an abstraction that represents a "running" shell "command".
 //
-// Constract this with a Producer, which is is an abstraction that
+// Contrast this with a Producer, which is is an abstraction that
 // represents a shell "command".
 //
 // To use a metaphor, the differences between a Producer and a Handler,

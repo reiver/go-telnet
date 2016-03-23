@@ -5,7 +5,7 @@ package telsh
 //
 // Producer is an abstraction that represents a shell "command".
 //
-// Constract this with a Handler, which is is an abstraction that
+// Contrast this with a Handler, which is is an abstraction that
 // represents a "running" shell "command".
 //
 // To use a metaphor, the differences between a Producer and a Handler,
