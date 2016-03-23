@@ -129,7 +129,7 @@ func (handler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, r io.R
 			field0 := fields[0]
 
 			if 0 == bytes.Compare(exitCommandNameBytes, field0) {
-				oi.LongWrite(writer, []byte("Goodbye!\r\n"))
+				oi.LongWrite(writer, exitMessageBytes)
 				return
 			}
 
