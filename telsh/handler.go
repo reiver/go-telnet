@@ -8,9 +8,8 @@ import (
 
 // Hander is an abstraction that represents a "running" shell "command".
 //
-// Conceptually, anything that implements this, and then registered
-// with DefaultShellHandler.Register() or a new instance of
-// ShellHandler will be available as a command.
+// Conceptually, anything that implements this, and then has its Producer
+// registered with ShellHandler.Register() will be available as a command.
 //
 // Note that Handler was intentionally made to be compatible with
 // "os/exec", which is part of the Go standard library.
@@ -28,12 +27,15 @@ type Handler interface {
 //
 // For example:
 //
-//	telsh.DefaultShellHandler.Register("five", telsh.ProducerFunc(
+//	shellHandler := telsh.NewShellHandler()
+//	
+//	shellHandler.Register("five", telsh.ProducerFunc(
 //		
-//		func(ctx telnet.Context, name string, args ...string) telsh.Handler{
+//		func(ctx Context, name string, args ...string) telsh.Handler{
 //		
 //			return telsh.PromoteHandlerFunc(
-//				func(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser)error {
+//				
+//				func(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser) error {
 //					oi.LongWrite(stdout, []byte{'5', '\r', '\n'})
 //					
 //					return nil
