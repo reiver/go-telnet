@@ -9,7 +9,7 @@ package telsh
 // represents a "running" shell "command".
 //
 // To use a metaphor, the differences between a Producer and a Handler,
-// is like the difference between a program execute and actually running
+// is like the difference between a program executable and actually running
 // the program executable.
 type Producer interface {
 	Produce(Context, string, ...string) Handler

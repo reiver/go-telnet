@@ -8,7 +8,14 @@ import (
 
 // Hander is an abstraction that represents a "running" shell "command".
 //
-// Conceptually, anything that implements this, and then has its Producer
+// Constract this with a Producer, which is is an abstraction that
+// represents a shell "command".
+//
+// To use a metaphor, the differences between a Producer and a Handler,
+// is like the difference between a program executable and actually running
+// the program executable.
+//
+// Conceptually, anything that implements the Hander, and then has its Producer
 // registered with ShellHandler.Register() will be available as a command.
 //
 // Note that Handler was intentionally made to be compatible with
