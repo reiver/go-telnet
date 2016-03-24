@@ -15,8 +15,8 @@ import (
 const (
 	defaultExitCommandName = "exit"
 	defaultPrompt          = "§ "
-	defaultWelcomeMessage  = "Welcome!\r\n"
-	defaultExitMessage     = "Goodbye!\r\n"
+	defaultWelcomeMessage  = "\r\nWelcome!\r\n"
+	defaultExitMessage     = "\r\nGoodbye!\r\n"
 )
 
 
