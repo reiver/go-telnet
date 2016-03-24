@@ -76,7 +76,7 @@ The different types of *video terminals* had named such as:
 
 ("VT" in those named was short for "video terminal".)
 
-## Teletype
+### Teletype
 
 To understand this era, we need to go back a bit in time to what came before it:
 *teletypes*.
