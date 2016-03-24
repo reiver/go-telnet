@@ -12,7 +12,8 @@ Online documentation, which includes examples, can be found at: http://godoc.org
 [![GoDoc](https://godoc.org/github.com/reiver/go-telnet?status.svg)](https://godoc.org/github.com/reiver/go-telnet)
 
 
-## TELNET Server Example
+## Very Simple TELNET Server Example
+
 A very very simple TELNET server is shown in the following code.
 
 This particular TELNET server just echos back to the user anything they "submit" to the server.
@@ -40,7 +41,133 @@ func main() {
 
 ```
 
-More useful TELNET servers can be made using the `"github.com/reiver/go-telnet/telsh"` sub-package.
+If you wanted to test out this very very simple TELNET server, if you were on the same computer it was
+running, you could connect to it using the bash command:
+```
+telnet localhost 5555
+```
+(Note that we use the same TCP port number -- "5555" -- as we had in our code. That is important, as the
+value used by your TELNET server and the value used by your TELNET client **must** match.)
+
+
+##  TELNET Shell Server Example
+
+A more useful TELNET servers can be made using the `"github.com/reiver/go-telnet/telsh"` sub-package.
+
+For example:
+```
+package main
+
+
+import (
+	"github.com/reiver/go-oi"
+	"github.com/reiver/go-telnet"
+	"github.com/reiver/go-telnet/telsh"
+
+	"fmt"
+	"io"
+	"time"
+)
+
+
+func fiveHandler(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser)error {
+	oi.LongWrite(stdout, []byte{'5', '\r', '\n'})
+
+	return nil
+}
+
+func fiveProducer(ctx telsh.Context, name string, args ...string) telsh.Handler{
+	return telsh.PromoteHandlerFunc(fiveHandler)
+}
+
+
+
+func danceHandler(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser)error {
+	for i:=0; i<20; i++ {
+		oi.LongWriteString(stdout, "\r⠋")
+		time.Sleep(50*time.Millisecond)
+
+		oi.LongWriteString(stdout, "\r⠙")
+		time.Sleep(50*time.Millisecond)
+
+		oi.LongWriteString(stdout, "\r⠹")
+		time.Sleep(50*time.Millisecond)
+
+		oi.LongWriteString(stdout, "\r⠸")
+		time.Sleep(50*time.Millisecond)
+
+		oi.LongWriteString(stdout, "\r⠼")
+		time.Sleep(50*time.Millisecond)
+
+		oi.LongWriteString(stdout, "\r⠴")
+		time.Sleep(50*time.Millisecond)
+
+		oi.LongWriteString(stdout, "\r⠦")
+		time.Sleep(50*time.Millisecond)
+
+		oi.LongWriteString(stdout, "\r⠧")
+		time.Sleep(50*time.Millisecond)
+
+		oi.LongWriteString(stdout, "\r⠇")
+		time.Sleep(50*time.Millisecond)
+
+		oi.LongWriteString(stdout, "\r⠏")
+		time.Sleep(50*time.Millisecond)
+	}
+	oi.LongWriteString(stdout, "\r \r\n")
+
+	return nil
+}
+
+
+func danceProducer(ctx telsh.Context, name string, args ...string) telsh.Handler{
+
+	return telsh.PromoteHandlerFunc(danceHandler)
+}
+
+
+func main() {
+
+	shellHandler := telsh.NewShellHandler()
+
+	shellHandler.WelcomeMessage = `
+ __          __ ______  _        _____   ____   __  __  ______ 
+ \ \        / /|  ____|| |      / ____| / __ \ |  \/  ||  ____|
+  \ \  /\  / / | |__   | |     | |     | |  | || \  / || |__   
+   \ \/  \/ /  |  __|  | |     | |     | |  | || |\/| ||  __|  
+    \  /\  /   | |____ | |____ | |____ | |__| || |  | || |____ 
+     \/  \/    |______||______| \_____| \____/ |_|  |_||______|
+
+`
+
+
+	// Register the "five" command.
+	commandName     := "five"
+	commandProducer := telsh.ProducerFunc(fiveProducer)
+
+	shellHandler.Register(commandName, commandProducer)
+
+
+
+	// Register the "dance" command.
+	commandName      = "dance"
+	commandProducer  = telsh.ProducerFunc(danceProducer)
+
+	shellHandler.Register(commandName, commandProducer)
+
+
+
+	shellHandler.Register("dance", telsh.ProducerFunc(danceProducer))
+
+	addr := ":5555"
+	if err := telnet.ListenAndServe(addr, shellHandler); nil != err {
+		panic(err)
+	}
+}
+```
+
+TELNET servers made using the `"github.com/reiver/go-telnet/telsh"` sub-package will often be more useful
+as it makes it easier for you to create a *shell* interface.
 
 
 ## TELNET Story
