@@ -13,6 +13,13 @@ Online documentation, which includes examples, can be found at: http://godoc.org
 
 
 ## TELNET Server Example
+A very very simple TELNET server is shown in the following code.
+
+This particular TELNET server just echos back to the user anything they "submit" to the server.
+
+(By default, a TELNET client does *not* send anything to the server until the [Enter] key is pressed.
+"Submit" means typing something and then pressing the [Enter] key.)
+
 ```
 package main
 
@@ -32,6 +39,8 @@ func main() {
 }
 
 ```
+
+More useful TELNET servers can be made using the `"github.com/reiver/go-telnet/telsh"` sub-package.
 
 
 ## TELNET Story
