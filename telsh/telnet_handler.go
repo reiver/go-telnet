@@ -198,7 +198,16 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, 
 			} else if nil == stdoutPipe {
 //@TODO:                              
 			} else {
-				go connect(writer, stdoutPipe)
+				connect(writer, stdoutPipe)
+			}
+
+
+			if stderrPipe, err := handler.StderrPipe(); nil != err {
+//@TODO:                              
+			} else if nil == stderrPipe {
+//@TODO:                              
+			} else {
+				connect(writer, stderrPipe)
 			}
 
 
@@ -225,19 +234,22 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, 
 
 func connect(writer io.Writer, reader io.Reader) {
 
-	var buffer [1]byte // Seems like the length of the buffer needs to be small, otherwise will have to wait for buffer to fill up.
-	p := buffer[:]
+	go func(){
 
-	for {
-		// Read 1 byte.
-		n, err := reader.Read(p)
-		if n <= 0 && nil == err {
-			continue
-		} else if n <= 0 && nil != err {
-			break
-		}
+		var buffer [1]byte // Seems like the length of the buffer needs to be small, otherwise will have to wait for buffer to fill up.
+		p := buffer[:]
+
+		for {
+			// Read 1 byte.
+			n, err := reader.Read(p)
+			if n <= 0 && nil == err {
+				continue
+			} else if n <= 0 && nil != err {
+				break
+			}
 
 //@TODO: Should we be checking for errors?
-		oi.LongWrite(writer, p)
-	}
+			oi.LongWrite(writer, p)
+		}
+	}()
 }
