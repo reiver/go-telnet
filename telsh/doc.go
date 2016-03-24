@@ -61,5 +61,94 @@ Here is an example usage:
 		}
 	}
 
+Here is a more "unpacked" example:
+
+	package main
+	
+	
+	import (
+		"github.com/reiver/go-oi"
+		"github.com/reiver/go-telnet"
+		"github.com/reiver/go-telnet/telsh"
+		
+		"fmt"
+		"io"
+		"time"
+	)
+	
+	
+	var (
+		shellHandler := telsh.NewShellHandler()
+	)
+	
+	
+	func init() {
+		
+		shellHandler.Register("dance", telsh.ProducerFunc(producer))
+		
+		
+		shellHandler.WelcomeMessage = `
+	 __          __ ______  _        _____   ____   __  __  ______ 
+	 \ \        / /|  ____|| |      / ____| / __ \ |  \/  ||  ____|
+	  \ \  /\  / / | |__   | |     | |     | |  | || \  / || |__   
+	   \ \/  \/ /  |  __|  | |     | |     | |  | || |\/| ||  __|  
+	    \  /\  /   | |____ | |____ | |____ | |__| || |  | || |____ 
+	     \/  \/    |______||______| \_____| \____/ |_|  |_||______|
+	
+	`
+	}
+	
+	
+	func producer(ctx telsh.Context, name string, args ...string) telsh.Handler{
+		return telsh.PromoteHandlerFunc(handler)
+	}
+	
+	
+	func handler(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser) error {
+		for i:=0; i<20; i++ {
+			oi.LongWriteString(stdout, "\r⠋")
+			time.Sleep(50*time.Millisecond)
+			
+			oi.LongWriteString(stdout, "\r⠙")
+			time.Sleep(50*time.Millisecond)
+			
+			oi.LongWriteString(stdout, "\r⠹")
+			time.Sleep(50*time.Millisecond)
+			
+			oi.LongWriteString(stdout, "\r⠸")
+			time.Sleep(50*time.Millisecond)
+			
+			oi.LongWriteString(stdout, "\r⠼")
+			time.Sleep(50*time.Millisecond)
+			
+			oi.LongWriteString(stdout, "\r⠴")
+			time.Sleep(50*time.Millisecond)
+			
+			oi.LongWriteString(stdout, "\r⠦")
+			time.Sleep(50*time.Millisecond)
+			
+			oi.LongWriteString(stdout, "\r⠧")
+			time.Sleep(50*time.Millisecond)
+			
+			oi.LongWriteString(stdout, "\r⠇")
+			time.Sleep(50*time.Millisecond)
+			
+			oi.LongWriteString(stdout, "\r⠏")
+			time.Sleep(50*time.Millisecond)
+		}
+		oi.LongWriteString(stdout, "\r \r\n")
+
+		return nil
+	}
+	
+	
+	func main() {
+		
+		addr := ":5555"
+		if err := telnet.ListenAndServe(addr, shellHandler); nil != err {
+			panic(err)
+		}
+	}
+
 */
 package telsh
