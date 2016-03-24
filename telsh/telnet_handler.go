@@ -95,21 +95,19 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, 
 
 	var prompt          bytes.Buffer
 	var exitCommandName string
-	var welcomeMessage  bytes.Buffer
-	var exitMessage     bytes.Buffer
+	var welcomeMessage  string
+	var exitMessage     string
 
 	prompt.WriteString(telnetHandler.Prompt)
-	welcomeMessage.WriteString(telnetHandler.WelcomeMessage)
-	exitMessage.WriteString(telnetHandler.ExitMessage)
 
 	promptBytes          := prompt.Bytes()
-	welcomeMessageBytes  := welcomeMessage.Bytes()
-	exitMessageBytes     := exitMessage.Bytes()
 
 	exitCommandName = telnetHandler.ExitCommandName
+	welcomeMessage  = telnetHandler.WelcomeMessage
+	exitMessage     = telnetHandler.ExitMessage
 
 
-	if _, err := oi.LongWrite(writer, welcomeMessageBytes); nil != err {
+	if _, err := oi.LongWriteString(writer, welcomeMessage); nil != err {
 		return
 	}
 	if _, err := oi.LongWrite(writer, promptBytes); nil != err {
@@ -161,7 +159,7 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, 
 			field0 := fields[0]
 
 			if exitCommandName == field0 {
-				oi.LongWrite(writer, exitMessageBytes)
+				oi.LongWriteString(writer, exitMessage)
 				return
 			}
 
@@ -237,7 +235,7 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, 
 	}
 
 
-	oi.LongWrite(writer, exitMessageBytes)
+	oi.LongWriteString(writer, exitMessage)
 	return
 }
 
