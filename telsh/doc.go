@@ -1,5 +1,5 @@
 /*
-Package telsh provides "middle" (for the telnet package) that can be used to implement a TELNET server
+Package telsh provides "middleware" (for the telnet package) that can be used to implement a TELNET server
 that provides a "shell" interface.
 
 Shell interfaces you may be familiar with include: "bash", "csh", "sh", "zsk", etc.
