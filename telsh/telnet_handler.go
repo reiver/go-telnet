@@ -144,6 +144,13 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, 
 
 //@TODO: support piping.
 			fields := strings.Fields(lineString)
+			if len(fields) <= 0 {
+				line.Reset()
+				oi.LongWrite(writer, promptBytes)
+				continue
+			}
+
+
 			field0 := fields[0]
 
 			if exitCommandName == field0 {
