@@ -109,9 +109,12 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, 
 	exitCommandName = telnetHandler.ExitCommandName
 
 
-//@TODO: Should we check for (potential) errors coming from these LongWrites?
-	oi.LongWrite(writer, welcomeMessageBytes)
-	oi.LongWrite(writer, promptBytes)
+	if _, err := oi.LongWrite(writer, welcomeMessageBytes); nil != err {
+		return
+	}
+	if _, err := oi.LongWrite(writer, promptBytes); nil != err {
+		return
+	}
 
 
 	var buffer [1]byte // Seems like the length of the buffer needs to be small, otherwise will have to wait for buffer to fill up.
@@ -137,7 +140,9 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, 
 
 			if "\r\n" == lineString {
 				line.Reset()
-				oi.LongWrite(writer, promptBytes)
+				if _, err := oi.LongWrite(writer, promptBytes); nil != err {
+					return
+				}
 				continue
 			}
 
@@ -146,7 +151,9 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, 
 			fields := strings.Fields(lineString)
 			if len(fields) <= 0 {
 				line.Reset()
-				oi.LongWrite(writer, promptBytes)
+				if _, err := oi.LongWrite(writer, promptBytes); nil != err {
+					return
+				}
 				continue
 			}
 
@@ -177,7 +184,9 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, 
 				oi.LongWrite(writer, []byte(field0))
 				oi.LongWrite(writer, colonSpaceCommandNotFoundEL)
 				line.Reset()
-				oi.LongWrite(writer, promptBytes)
+				if _, err := oi.LongWrite(writer, promptBytes); nil != err {
+					return
+				}
 				continue
 			}
 
@@ -215,7 +224,9 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, 
 //@TODO:                                    
 			}
 			line.Reset()
-			oi.LongWrite(writer, promptBytes)
+			if _, err := oi.LongWrite(writer, promptBytes); nil != err {
+				return
+			}
 		}
 
 
