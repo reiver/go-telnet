@@ -190,7 +190,7 @@ monitors called "video terminals".
 
 (The word "video" in that era of computing did not refer to things such as *movies*. But instead
 was meant to contrast it with paper. In particular, the *teletype* machines, which were typewriter
-like devices that had a keyboard, but instead of having a monitor had paper that way printed onto.)
+like devices that had a keyboard, but instead of having a monitor had paper that was printed onto.)
 
 ### Early Office Computers
 
@@ -224,7 +224,7 @@ To understand this era, we need to go back a bit in time to what came before it:
 **Terminal codes** (also sometimes called **Terminal control codes**) are used to issue various kinds of commands
 to the terminal.
 
-(**Terminal control codes** are a completely separate concept for **TELNET commands**, and the to should **not**
+(**Terminal control codes** are a completely separate concept for **TELNET commands**, and the two should **not**
 be conflated.)
 
 The most common types of *terminal codes* are the: **ANSI escape codes**. (Although there are other types too.)
@@ -274,7 +274,7 @@ is the "escape" character) where the third and fouth characters are the
 | Blue         | "\x1b[44m" | []byte{27, '[', '4','4', 'm'} |
 | Magenta      | "\x1b[45m" | []byte{27, '[', '4','5', 'm'} |
 | Cyan         | "\x1b[46m" | []byte{27, '[', '4','6', 'm'} |
-| Gray/White   | "\x1b[47m" | []byte{27, '[', '4','7', 'm'} |
+| Gray/White   | `"\x1b[47m"` | `[]byte{27, '[', '4','7', 'm'}` |
 
 (Note that in the `[]byte` that the first `byte` is the number `27` (which
 is the "escape" character) where the third and fouth characters are the
