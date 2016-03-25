@@ -117,7 +117,7 @@ The actual implemenation for the `date` command could be done like the following
 
 Note that your "real" work is in the `dateHandlerFunc` func.
 
-And the actual implementation for the `animate` command could as done as follows:
+And the actual implementation for the `animate` command could be done as follows:
 
 	func animateHandlerFunc(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser) error {
 		
