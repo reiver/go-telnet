@@ -172,7 +172,9 @@ Generating PEM Files
 If you are using the telnet.ListenAndServeTLS func or the telnet.Server.ListenAndServeTLS method, you will need to
 supply "cert.pem" and "key.pem" files.
 
-The Go soure code contains a tool for generating these files for you. It can be found at:
+If you do not already have these files, the Go soure code contains a tool for generating these files for you.
+
+It can be found at:
 
 	$GOROOT/src/crypto/tls/generate_cert.go
 
