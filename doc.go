@@ -188,7 +188,7 @@ If you run the command:
 
 ... then you get the help information for "generate_cert.go".
 
-Of course, you would replace or set `$GOROOT` with whatever your path actualy is. Again, for example,
+Of course, you would replace or set `$GOROOT` with whatever your path actually is. Again, for example,
 if your `$GOROOT` is the "/usr/local/go" directory, then it would be:
 
 	go run /usr/local/go/src/crypto/tls/generate_cert.go --help
@@ -205,6 +205,21 @@ be able to find the file with the command:
 	locate /src/crypto/tls/generate_cert.go
 
 (If it finds it, it should output the full path to this file.)
+
+
+Example TELNET Client
+
+You can make a simple (un-secure) TELNET client with code like the following:
+
+	#### TODO ####
+
+
+Example TELNETS Client
+
+You can make a simple (secure) TELNETS client with code like the following:
+
+	#### TODO ####
+
 
 
 Terminal Codes
