@@ -7,7 +7,7 @@ over a secured TLS (or SSL) connection.
 
 Example TELNET Server
 
-ListenAndServe starts a TELNET server with a given address and handler.
+ListenAndServe starts a (un-secure) TELNET server with a given address and handler.
 
 	handler := telnet.EchoHandler
 	
