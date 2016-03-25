@@ -2,6 +2,7 @@ package telnet
 
 
 import (
+	"crypto/tls"
 	"io"
 	"net"
 )
@@ -70,6 +71,8 @@ func Serve(listener net.Listener, handler Handler) error {
 type Server struct {
 	Addr    string  // TCP address to listen on; ":telnet" or ":telnets" if empty (when used with ListenAndServe or ListenAndServeTLS respectively).
 	Handler Handler // handler to invoke; telnet.EchoServer if nil
+
+	TLSConfig *tls.Config // optional TLS configuration; used by ListenAndServeTLS.
 }
 
 
