@@ -7,8 +7,8 @@ import (
 )
 
 
-// ListenAndServe listens on the TCP network address 'addr' and then spawns a call to the ServeTELNET
-// method on the 'handler' to serve each incoming connection.
+// ListenAndServe listens on the TCP network address `addr` and then spawns a call to the ServeTELNET
+// method on the `handler` to serve each incoming connection.
 //
 // For a very simple example:
 //
@@ -31,6 +31,14 @@ import (
 func ListenAndServe(addr string, handler Handler) error {
 	server := &Server{Addr: addr, Handler: handler}
 	return server.ListenAndServe()
+}
+
+
+// Serve accepts an incoming TELNET client connection on the net.Listener `listener`.
+func Serve(listener net.Listener, handler Handler) error {
+
+	server := &Server{Handler: handler}
+	return server.Serve(listener)
 }
 
 
@@ -60,7 +68,7 @@ func ListenAndServe(addr string, handler Handler) error {
 //		}
 //	}
 type Server struct {
-	Addr    string  // TCP address to listen on; ":telnet" if empty.
+	Addr    string  // TCP address to listen on; ":telnet" or ":telnets" if empty (when used with ListenAndServe or ListenAndServeTLS respectively).
 	Handler Handler // handler to invoke; telnet.EchoServer if nil
 }
 
@@ -103,6 +111,15 @@ func (server *Server) ListenAndServe() error {
 	if nil != err {
 		return err
 	}
+
+
+	return server.Serve(listener)
+}
+
+
+// Serve accepts an incoming TELNET client connection on the net.Listener `listener`.
+func (server *Server) Serve(listener net.Listener) error {
+
 	defer listener.Close()
 
 
@@ -113,10 +130,12 @@ func (server *Server) ListenAndServe() error {
 		handler = EchoHandler
 	}
 
+
 	for {
 		// Wait for a new TELNET client connection.
 		conn, err := listener.Accept()
 		if err != nil {
+//@TODO: Could try to recover from certain kinds of errors. Maybe waiting a while before trying again.
 			return err
 		}
 
