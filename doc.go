@@ -19,7 +19,7 @@ ListenAndServe starts a TELNET server with a given address and handler.
 
 Example TELNETS Server
 
-ListenAndServeTLS starts a TELNETS server with a given address and handler.
+ListenAndServeTLS starts a (secure) TELNETS server with a given address and handler.
 
 	handler := telnet.EchoHandler
 	
