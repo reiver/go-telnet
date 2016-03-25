@@ -279,7 +279,7 @@ Another of the abilities of ANSI escape codes is to set the background color.
 
 (Note that in the `[]byte` that the first `byte` is the number `27` (which
 is the "escape" character) where the third and fouth characters are the
-**not** number literals, but instead character literals `'3'` and whatever.)
+**not** number literals, but instead character literals `'4'` and whatever.)
 
 
 */
