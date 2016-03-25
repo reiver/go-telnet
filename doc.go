@@ -28,11 +28,12 @@ ListenAndServeTLS starts a (secure) TELNETS server with a given address and hand
 		panic(err)
 	}
 
+
 TELNET vs TELNETS
 
-If you are communicating over the open Internet, you should be using TELNETS and ListenAndServeTLS.
+If you are communicating over the open Internet, you should be using (the secure) TELNETS and ListenAndServeTLS.
 
-If you are communicating just on localhost, then using just TELNET and telnet.ListenAndServe may be OK.
+If you are communicating just on localhost, then using just (the un-secure) TELNET and telnet.ListenAndServe may be OK.
 
 If you are not sure which to use, use TELNETS and ListenAndServeTLS.
 
