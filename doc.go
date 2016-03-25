@@ -281,6 +281,45 @@ Another of the abilities of ANSI escape codes is to set the background color.
 is the "escape" character) where the third and fouth characters are the
 **not** number literals, but instead character literals `'4'` and whatever.)
 
+Using ANSI Escape Codes
+
+In Go code, if I wanted to use an ANSI escape code to use a blue background,
+a white foreground, and bold, I could do that with the ANSI escape code:
+
+	"\x1b[44;37;1m"
+
+Note that that start with byte value 27, which we have encoded as hexadecimal
+as \x1b. Followed by the '[' character.
+
+Coming after that is the sub-string "44", which is the code that sets our background color to blue.
+
+We follow that with the ';' character (which separates codes).
+
+And the after that comes the sub-string "37", which is the code that set our foreground color to white.
+
+After that, we follow with another ";" character (which, again, separates codes).
+
+And then we follow it the sub-string "1", which is the code that makes things bold.
+
+And finally, the ANSI escape sequence is finished off with the 'm' character.
+
+To show this in a more complete example, our `dateHandlerFunc` from before could incorporate ANSI escape sequences as follows:
+
+	func dateHandlerFunc(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser) error {
+		const layout = "Mon Jan 2 15:04:05 -0700 MST 2006"
+		s := "\x1b[44;37;1m" + time.Now().Format(layout) + "\x1b[0m"
+		
+		if _, err := oi.LongWriteString(stdout, s); nil != err {
+			return err
+		}
+		
+		return nil
+	}
+
+Note that in that example, in addition to using the ANSI escape sequence "\x1b[44;37;1m"
+to set the background color to blue, set the foreground color to white, and make it bold,
+we also used the ANSI escape sequence "\x1b[0m" to reset the background and foreground colors
+and boldness back to "normal".
 
 */
 package telnet
