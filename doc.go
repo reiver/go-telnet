@@ -19,7 +19,8 @@ ListenAndServe starts a TELNET server with a given address and handler.
 
 Example TELNETS Server
 
-ListenAndServeTLS starts a (secure) TELNETS server with a given address and handler.
+ListenAndServeTLS starts a (secure) TELNETS server with a given address and handler,
+using the specific "cert.pem" and "key.pem" files.
 
 	handler := telnet.EchoHandler
 	
@@ -38,7 +39,7 @@ If you are communicating just on localhost, then using just (the un-secure) TELN
 If you are not sure which to use, use TELNETS and ListenAndServeTLS.
 
 
-Generating "cert.pem" and "key.pem" Files
+Generating PEM Files
 
 If you are using the telnet.ListenAndServeTLS func or the telnet.Server.ListenAndServeTLS method, you will need to
 supply "cert.pem" and "key.pem" files.
@@ -67,8 +68,6 @@ that were bound to the hosts `127.0.0.1` and `localhost`:
 
 	go run /usr/local/go/src/crypto/tls/generate_cert.go --ca --host='127.0.0.1,localhost'
 
-
-Finding "generate_cert.go"
 
 If you are not sure where "generate_cert.go" is on your computer, on Linux and Unix based systems, you might
 be able to find the file with the command:
