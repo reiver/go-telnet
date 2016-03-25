@@ -37,5 +37,46 @@ If you are communicating just on localhost, then using just (the un-secure) TELN
 
 If you are not sure which to use, use TELNETS and ListenAndServeTLS.
 
+
+Generating "cert.pem" and "key.pem" Files
+
+If you are using the telnet.ListenAndServeTLS func or the telnet.Server.ListenAndServeTLS method, you will need to
+supply "cert.pem" and "key.pem" files.
+
+The Go soure code contains a tool for generating these files for you. It can be found at:
+
+	$GOROOT/src/crypto/tls/generate_cert.go
+
+So, for example, if your `$GOROOT` is the "/usr/local/go" directory, then it would be at:
+
+	/usr/local/go/src/crypto/tls/generate_cert.go
+
+If you run the command:
+
+	go run $GOROOT/src/crypto/tls/generate_cert.go --help
+
+... then you get the help information for "generate_cert.go".
+
+Of course, you would replace or set `$GOROOT` with whatever your path actualy is. Again, for example,
+if your `$GOROOT` is the "/usr/local/go" directory, then it would be:
+
+	go run /usr/local/go/src/crypto/tls/generate_cert.go --help
+
+To demonstrate the usage of "generate_cert.go", you might run the following to generate certificates
+that were bound to the hosts `127.0.0.1` and `localhost`:
+
+	go run /usr/local/go/src/crypto/tls/generate_cert.go --ca --host='127.0.0.1,localhost'
+
+
+Finding "generate_cert.go"
+
+If you are not sure where "generate_cert.go" is on your computer, on Linux and Unix based systems, you might
+be able to find the file with the command:
+
+	locate /src/crypto/tls/generate_cert.go
+
+(If it finds it, it should output the full path to this file.)
+
+
 */
 package telnet
