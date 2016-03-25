@@ -207,5 +207,80 @@ be able to find the file with the command:
 (If it finds it, it should output the full path to this file.)
 
 
+Terminal Codes
+
+Terminal codes (also sometimes called 'terminal control codes') are used to issue various kinds of commands
+to the terminal.
+
+(Note that 'terminal control codes' are a completely separate concept for 'TELNET commands',
+and the two should NOT be conflated or confused.)
+
+The most common types of 'terminal codes' are the 'ANSI escape codes'. (Although there are other types too.)
+
+
+ANSI Escape Codes
+
+ANSI escape codes (also sometimes called 'ANSI escape sequences') are a common type of 'terminal code' used
+to do things such as:
+
+• moving the cursor,
+
+• erasing the display,
+
+• erasing the line,
+
+• setting the graphics mode,
+
+• setting the foregroup color,
+
+• setting the background color,
+
+• setting the screen resolution, and
+
+• setting keyboard strings.
+
+
+Setting The Foreground Color With ANSI Escape Codes
+
+One of the abilities of ANSI escape codes is to set the foreground color.
+
+Here is a table showing codes for this:
+
+	| ANSI Color   | Go string    | Go []byte                       |
+	| ------------ | ------------ | ------------------------------- |
+	| Black        | `"\x1b[30m"` | `[]byte{27, '[', '3','0', 'm'}` |
+	| Red          | `"\x1b[31m"` | `[]byte{27, '[', '3','1', 'm'}` |
+	| Green        | `"\x1b[32m"` | `[]byte{27, '[', '3','2', 'm'}` |
+	| Brown/Yellow | `"\x1b[33m"` | `[]byte{27, '[', '3','3', 'm'}` |
+	| Blue         | `"\x1b[34m"` | `[]byte{27, '[', '3','4', 'm'}` |
+	| Magenta      | `"\x1b[35m"` | `[]byte{27, '[', '3','5', 'm'}` |
+	| Cyan         | `"\x1b[36m"` | `[]byte{27, '[', '3','6', 'm'}` |
+	| Gray/White   | `"\x1b[37m"` | `[]byte{27, '[', '3','7', 'm'}` |
+
+(Note that in the `[]byte` that the first `byte` is the number `27` (which
+is the "escape" character) where the third and fouth characters are the
+**not** number literals, but instead character literals `'3'` and whatever.)
+
+
+Setting The Background Color With ANSI Escape Codes
+
+Another of the abilities of ANSI escape codes is to set the background color.
+
+	| ANSI Color   | Go string    | Go []byte                       |
+	| ------------ | ------------ | ------------------------------- |
+	| Black        | `"\x1b[40m"` | `[]byte{27, '[', '4','0', 'm'}` |
+	| Red          | `"\x1b[41m"` | `[]byte{27, '[', '4','1', 'm'}` |
+	| Green        | `"\x1b[42m"` | `[]byte{27, '[', '4','2', 'm'}` |
+	| Brown/Yellow | `"\x1b[43m"` | `[]byte{27, '[', '4','3', 'm'}` |
+	| Blue         | `"\x1b[44m"` | `[]byte{27, '[', '4','4', 'm'}` |
+	| Magenta      | `"\x1b[45m"` | `[]byte{27, '[', '4','5', 'm'}` |
+	| Cyan         | `"\x1b[46m"` | `[]byte{27, '[', '4','6', 'm'}` |
+	| Gray/White   | `"\x1b[47m"` | `[]byte{27, '[', '4','7', 'm'}` |
+
+(Note that in the `[]byte` that the first `byte` is the number `27` (which
+is the "escape" character) where the third and fouth characters are the
+**not** number literals, but instead character literals `'3'` and whatever.)
+
+
 */
 package telnet
