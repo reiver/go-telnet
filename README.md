@@ -1,8 +1,8 @@
 # go-telnet
 
-Package **telnet** provides TELNET client and server implementations, for Go programming language,
-in a style similar to the "net/http" library that is part of the Go standard library,
-including support for "middleware".
+Package **telnet** provides TELNET and TELNETS client and server implementations, for the Go programming language,
+in a style similar to the "net/http" library that is part of the Go standard library, including support for "middleware";
+TELNETS is *secure TELNET*, with the TELNET protocol over a secured TLS (or SSL) connection.
 
 
 ## Documention
@@ -32,7 +32,7 @@ func main() {
 
 	var handler telnet.Handler = telnet.EchoHandler
 	
-	err := telnet.ListenAndServe(":5555", handler)
+	err := telnet.ListenAndServe(":23", handler)
 	if nil != err {
 		//@TODO: Handle this error better.
 		panic(err)
@@ -48,6 +48,29 @@ telnet localhost 5555
 ```
 (Note that we use the same TCP port number -- "5555" -- as we had in our code. That is important, as the
 value used by your TELNET server and the value used by your TELNET client **must** match.)
+
+
+## Very Simple (Secure) TELNETS Server Example
+
+```
+package main
+
+import (
+	"github.com/reiver/go-telnet"
+)
+
+func main() {
+
+	var handler telnet.Handler = telnet.EchoHandler
+	
+	err := telnet.ListenAndServeTLS(":992", "cert.pem", "key.pem", handler)
+	if nil != err {
+		//@TODO: Handle this error better.
+		panic(err)
+	}
+}
+
+```
 
 
 ##  TELNET Shell Server Example
