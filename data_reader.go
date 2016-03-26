@@ -75,7 +75,7 @@ func NewDataReader(r io.Reader) *DataReader {
 
 
 // Read reads the TELNET escaped data from the  wrapped io.Reader, and "un-escapes" it into 'data'.
-func (w *DataReader) Read(data []byte) (n int, err error) {
+func (r *DataReader) Read(data []byte) (n int, err error) {
 
 	const IAC = 255
 
@@ -92,7 +92,7 @@ func (w *DataReader) Read(data []byte) (n int, err error) {
 	for len(p) > 0 {
 		var b byte
 
-		b, err = w.buffered.ReadByte()
+		b, err = r.buffered.ReadByte()
 		if nil != err {
 			return n, err
 		}
@@ -100,14 +100,14 @@ func (w *DataReader) Read(data []byte) (n int, err error) {
 		if IAC == b {
 			var peeked []byte
 
-			peeked, err = w.buffered.Peek(1)
+			peeked, err = r.buffered.Peek(1)
 			if nil != err {
 				return n, err
 			}
 
 			switch peeked[0] {
 			case WILL, WONT, DO, DONT:
-				_, err = w.buffered.Discard(2)
+				_, err = r.buffered.Discard(2)
 				if nil != err {
 					return n, err
 				}
@@ -116,33 +116,33 @@ func (w *DataReader) Read(data []byte) (n int, err error) {
 				n++
 				p = p[1:]
 
-				_, err = w.buffered.Discard(1)
+				_, err = r.buffered.Discard(1)
 				if nil != err {
 					return n, err
 				}
 			case SB:
 				for {
 					var b2 byte
-					b2, err = w.buffered.ReadByte()
+					b2, err = r.buffered.ReadByte()
 					if nil != err {
 						return n, err
 					}
 
 					if IAC == b2 {
-						peeked, err = w.buffered.Peek(1)
+						peeked, err = r.buffered.Peek(1)
 						if nil != err {
 							return n, err
 						}
 
 						if IAC == peeked[0] {
-							_, err = w.buffered.Discard(1)
+							_, err = r.buffered.Discard(1)
 							if nil != err {
 								return n, err
 							}
 						}
 
 						if SE == peeked[0] {
-							_, err = w.buffered.Discard(1)
+							_, err = r.buffered.Discard(1)
 							if nil != err {
 								return n, err
 							}
@@ -151,7 +151,7 @@ func (w *DataReader) Read(data []byte) (n int, err error) {
 					}
 				}
 			case SE:
-				_, err = w.buffered.Discard(1)
+				_, err = r.buffered.Discard(1)
 				if nil != err {
 					return n, err
 				}
@@ -171,3 +171,5 @@ func (w *DataReader) Read(data []byte) (n int, err error) {
 
 	return n, nil
 }
+
+
