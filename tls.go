@@ -14,6 +14,26 @@ import (
 // which by default listens to port 992.
 //
 // Of course, this port can be overridden using the 'addr' argument.
+//
+// For a very simple example:
+//
+//	package main
+//	
+//	import (
+//		"github.com/reiver/go-telnet"
+//	)
+//	
+//	func main() {
+//		
+//		//@TODO: In your code, you would probably want to use a different handler.
+//		var handler telnet.Handler = telnet.EchoHandler
+//		
+//		err := telnet.ListenAndServeTLS(":5555", "cert.pem", "key.pem", handler)
+//		if nil != err {
+//			//@TODO: Handle this error better.
+//			panic(err)
+//		}
+//	}
 func ListenAndServeTLS(addr string, certFile string, keyFile string, handler Handler) error {
 	server := &Server{Addr: addr, Handler: handler}
 	return server.ListenAndServeTLS(certFile, keyFile)

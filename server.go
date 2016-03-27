@@ -21,6 +21,7 @@ import (
 //	
 //	func main() {
 //	
+//		//@TODO: In your code, you would probably want to use a different handler.
 //		var handler telnet.Handler = telnet.EchoHandler
 //	
 //		err := telnet.ListenAndServe(":5555", handler)
@@ -35,7 +36,7 @@ func ListenAndServe(addr string, handler Handler) error {
 }
 
 
-// Serve accepts an incoming TELNET client connection on the net.Listener `listener`.
+// Serve accepts an incoming TELNET or TELNETS client connection on the net.Listener `listener`.
 func Serve(listener net.Listener, handler Handler) error {
 
 	server := &Server{Handler: handler}
