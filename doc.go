@@ -222,6 +222,7 @@ You can make a simple (un-secure) TELNET client with code like the following:
 	func main() {
 		var caller Caller = telnet.StandardCaller
 		
+		//@TOOD: replace "example.net:5555" with address you want to connect to.
 		telnet.DialToAndCall("example.net:5555", caller)
 	}
 
@@ -241,6 +242,7 @@ You can make a simple (secure) TELNETS client with code like the following:
 	func main() {
 		var caller Caller = telnet.StandardCaller
 		
+		//@TOOD: replace "example.net:5555" with address you want to connect to.
 		telnet.DialToAndCallTLS("example.net:5555", caller)
 	}
 
