@@ -7,7 +7,7 @@ import (
 )
 
 
-type Client struct {
+type Conn struct {
 	conn interface {
 		Read(b []byte) (n int, err error)
 		Write(b []byte) (n int, err error)
@@ -24,7 +24,7 @@ type Client struct {
 // (also known as "localhost" or 127.0.0.1).
 //
 // If a secure connection is desired, use `DialTLS` instead.
-func Dial() (*Client, error) {
+func Dial() (*Conn, error) {
 	return DialTo("")
 }
 
@@ -32,7 +32,7 @@ func Dial() (*Client, error) {
 // 'addr'.
 //
 // If a secure connection is desired, use `DialToTLS` instead.
-func DialTo(addr string) (*Client, error) {
+func DialTo(addr string) (*Conn, error) {
 
 	const network = "tcp"
 
@@ -48,25 +48,25 @@ func DialTo(addr string) (*Client, error) {
 	dataReader := NewDataReader(conn)
 	dataWriter := NewDataWriter(conn)
 
-	client := Client{
+	clientConn := Conn{
 		conn:conn,
 		dataReader:dataReader,
 		dataWriter:dataWriter,
 	}
 
-	return &client, nil
+	return &clientConn, nil
 }
 
 
 // DialTLS makes a (secure) TELNETS client connection to the system's 'loopback address'
 // (also known as "localhost" or 127.0.0.1).
-func DialTLS(tlsConfig *tls.Config) (*Client, error) {
+func DialTLS(tlsConfig *tls.Config) (*Conn, error) {
 	return DialToTLS("", tlsConfig)
 }
 
 // DialToTLS makes a (secure) TELNETS client connection to the the address specified by
 // 'addr'.
-func DialToTLS(addr string, tlsConfig *tls.Config) (*Client, error) {
+func DialToTLS(addr string, tlsConfig *tls.Config) (*Conn, error) {
 
 	const network = "tcp"
 
@@ -82,13 +82,13 @@ func DialToTLS(addr string, tlsConfig *tls.Config) (*Client, error) {
 	dataReader := NewDataReader(conn)
 	dataWriter := NewDataWriter(conn)
 
-	client := Client{
+	clientConn := Conn{
 		conn:conn,
 		dataReader:dataReader,
 		dataWriter:dataWriter,
 	}
 
-	return &client, nil
+	return &clientConn, nil
 }
 
 
@@ -103,8 +103,8 @@ func DialToTLS(addr string, tlsConfig *tls.Config) (*Client, error) {
 //		return err
 //	}
 //	defer telnetsClient.Close()
-func (client *Client) Close() error {
-	return client.conn.Close()
+func (clientConn *Conn) Close() error {
+	return clientConn.conn.Close()
 }
 
 
@@ -118,8 +118,8 @@ func (client *Client) Close() error {
 // command codes.
 //
 // Read makes Client fit the io.Reader interface.
-func (client *Client) Read(p []byte) (n int, err error) {
-	return client.dataReader.Read(p)
+func (clientConn *Conn) Read(p []byte) (n int, err error) {
+	return clientConn.dataReader.Read(p)
 }
 
 
@@ -130,19 +130,19 @@ func (client *Client) Read(p []byte) (n int, err error) {
 // TELNET (and TELNETS) command codes cannot be sent using this method, as Write deals with
 // TELNET (and TELNETS) "escaping", and will properly "escape" anything written with it.
 //
-// Write makes Client fit the io.Writer interface.
-func (client *Client) Write(p []byte) (n int, err error) {
-	return client.dataWriter.Write(p)
+// Write makes Conn fit the io.Writer interface.
+func (clientConn *Conn) Write(p []byte) (n int, err error) {
+	return clientConn.dataWriter.Write(p)
 }
 
 
 // LocalAddr returns the local network address.
-func (client *Client) LocalAddr() net.Addr {
-	return client.conn.LocalAddr()
+func (clientConn *Conn) LocalAddr() net.Addr {
+	return clientConn.conn.LocalAddr()
 }
 
 
 // RemoteAddr returns the remote network address.
-func (client *Client) RemoteAddr() net.Addr {
-	return client.conn.RemoteAddr()
+func (clientConn *Conn) RemoteAddr() net.Addr {
+	return clientConn.conn.RemoteAddr()
 }
