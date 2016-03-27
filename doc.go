@@ -230,8 +230,19 @@ Example TELNETS Client
 
 You can make a simple (secure) TELNETS client with code like the following:
 
-	#### TODO ####
-
+	package main
+	
+	
+	import (
+		"github.com/reiver/go-telnet"
+	)
+	
+	
+	func main() {
+		var caller Caller = telnet.StandardCaller
+		
+		telnet.DialAndCallToTLS("example.net:5555", caller)
+	}
 
 
 Terminal Codes
