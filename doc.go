@@ -32,9 +32,9 @@ using the specified "cert.pem" and "key.pem" files.
 
 TELNET vs TELNETS
 
-If you are communicating over the open Internet, you should be using (the secure) TELNETS and ListenAndServeTLS.
+If you are communicating over the open Internet, you should be using (the secure) TELNETS protocol and ListenAndServeTLS.
 
-If you are communicating just on localhost, then using just (the un-secure) TELNET and telnet.ListenAndServe may be OK.
+If you are communicating just on localhost, then using just (the un-secure) TELNET protocol and telnet.ListenAndServe may be OK.
 
 If you are not sure which to use, use TELNETS and ListenAndServeTLS.
 
@@ -77,10 +77,10 @@ For example:
 	func main() {
 		
 		shellHandler := telsh.NewShellHandler()
-
+		
 		commandName := "date"
 		shellHandler.Register(commandName, danceProducer)
-
+		
 		commandName = "animate"
 		shellHandler.Register(commandName, animateProducer)
 		
