@@ -18,7 +18,7 @@ func DialAndCall(caller Caller) error {
 }
 
 
-func DialAndCallTo(srvAddr string, caller Caller) error {
+func DialToAndCall(srvAddr string, caller Caller) error {
 	conn, err := DialTo(srvAddr)
 	if nil != err {
 		return err
@@ -41,7 +41,7 @@ func DialAndCallTLS(caller Caller, tlsConfig *tls.Config) error {
 	return client.Call(conn)
 }
 
-func DialAndCallToTLS(srvAddr string, caller Caller, tlsConfig *tls.Config) error {
+func DialToAndCallTLS(srvAddr string, caller Caller, tlsConfig *tls.Config) error {
 	conn, err := DialToTLS(srvAddr, tlsConfig)
 	if nil != err {
 		return err
