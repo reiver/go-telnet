@@ -86,6 +86,12 @@ func (telnetHandler *ShellHandler) MustRegisterElse(producer Producer) *ShellHan
 
 func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, r io.Reader) {
 
+	logger := ctx.Logger()
+	if nil == logger {
+		logger = internalDiscardLogger{}
+	}
+
+
 	colonSpaceCommandNotFoundEL := []byte(": command not found\r\n")
 
 
@@ -108,11 +114,15 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, 
 
 
 	if _, err := oi.LongWriteString(writer, welcomeMessage); nil != err {
+		logger.Errorf("Problem long writing welcome message: %v", err)
 		return
 	}
+	logger.Debugf("Wrote welcome message: %q.", welcomeMessage)
 	if _, err := oi.LongWrite(writer, promptBytes); nil != err {
+		logger.Errorf("Problem long writing prompt: %v", err)
 		return
 	}
+	logger.Debugf("Wrote prompt: %q.", promptBytes)
 
 
 	var buffer [1]byte // Seems like the length of the buffer needs to be small, otherwise will have to wait for buffer to fill up.
@@ -131,6 +141,7 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, 
 
 
 		line.WriteByte(p[0])
+		logger.Tracef("Received: %q (%d).", p[0], p[0])
 
 
 		if '\n' == p[0] {
@@ -205,7 +216,7 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, 
 			} else if nil == stdoutPipe {
 //@TODO:                              
 			} else {
-				connect(writer, stdoutPipe)
+				connect(ctx, writer, stdoutPipe)
 			}
 
 
@@ -214,7 +225,7 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, 
 			} else if nil == stderrPipe {
 //@TODO:                              
 			} else {
-				connect(writer, stderrPipe)
+				connect(ctx, writer, stderrPipe)
 			}
 
 
@@ -241,9 +252,11 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, 
 
 
 
-func connect(writer io.Writer, reader io.Reader) {
+func connect(ctx telnet.Context, writer io.Writer, reader io.Reader) {
 
-	go func(){
+	logger := ctx.Logger()
+
+	go func(logger telnet.Logger){
 
 		var buffer [1]byte // Seems like the length of the buffer needs to be small, otherwise will have to wait for buffer to fill up.
 		p := buffer[:]
@@ -257,8 +270,10 @@ func connect(writer io.Writer, reader io.Reader) {
 				break
 			}
 
+			logger.Tracef("Sending: %q.", p)
 //@TODO: Should we be checking for errors?
 			oi.LongWrite(writer, p)
+			logger.Tracef("Sent: %q.", p)
 		}
-	}()
+	}(logger)
 }

@@ -2,6 +2,8 @@ package telsh
 
 
 import (
+	"github.com/reiver/go-telnet"
+
 	"bytes"
 	"strings"
 
@@ -94,7 +96,7 @@ func TestServeTELNETCommandNotFound(t *testing.T) {
 		}
 
 
-		var ctx Context
+		ctx := telnet.NewContext()
 
 		var buffer bytes.Buffer
 

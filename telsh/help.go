@@ -3,6 +3,7 @@ package telsh
 
 import (
 	"github.com/reiver/go-oi"
+	"github.com/reiver/go-telnet"
 
 	"io"
 	"sort"
@@ -23,7 +24,7 @@ func Help(shellHandler *ShellHandler) Producer {
 }
 
 
-func (producer *internalHelpProducer) Produce(Context, string, ...string) Handler {
+func (producer *internalHelpProducer) Produce(telnet.Context, string, ...string) Handler {
 	return newHelpHandler(producer)
 }
 

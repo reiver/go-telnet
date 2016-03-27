@@ -1,6 +1,11 @@
 package telsh
 
 
+import (
+	"github.com/reiver/go-telnet"
+)
+
+
 // A Producer provides a Produce method which creates a Handler.
 //
 // Producer is an abstraction that represents a shell "command".
@@ -12,20 +17,20 @@ package telsh
 // is like the difference between a program executable and actually running
 // the program executable.
 type Producer interface {
-	Produce(Context, string, ...string) Handler
+	Produce(telnet.Context, string, ...string) Handler
 }
 
 
 // ProducerFunc is an adaptor, that can be used to turn a func with the
 // signature:
 //
-//	func(Context, string, ...string) Handler
+//	func(telnet.Context, string, ...string) Handler
 //
 // Into a Producer
-type ProducerFunc func(Context, string, ...string) Handler
+type ProducerFunc func(telnet.Context, string, ...string) Handler
 
 
 // Produce makes ProducerFunc fit the Producer interface.
-func (fn ProducerFunc) Produce(ctx Context, name string, args ...string) Handler {
+func (fn ProducerFunc) Produce(ctx telnet.Context, name string, args ...string) Handler {
 	return fn(ctx, name, args...)
 }
