@@ -15,5 +15,5 @@ package telnet
 //
 // Meaning, for example, that it does NOT include TELNET (and TELNETS) command sequences.
 type Caller interface {
-	CallTELNET(Context, *DataWriter, *DataReader)
+	CallTELNET(Context, Writer, Reader)
 }
