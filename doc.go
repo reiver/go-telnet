@@ -211,7 +211,19 @@ Example TELNET Client
 
 You can make a simple (un-secure) TELNET client with code like the following:
 
-	#### TODO ####
+	package main
+	
+	
+	import (
+		"github.com/reiver/go-telnet"
+	)
+	
+	
+	func main() {
+		var caller Caller = telnet.StandardCaller
+		
+		telnet.DialAndCallTo("example.net:5555", caller)
+	}
 
 
 Example TELNETS Client
