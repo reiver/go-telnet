@@ -108,8 +108,14 @@ func (client *Client) Close() error {
 }
 
 
-// Reads receives `n` bytes sent from the server to the client,
-// and returned into `p`.
+// Read receives `n` bytes sent from the server to the client,
+// and "returns" into `p`.
+//
+// Note that Read can only be used for receiving TELNET (and TELNETS) data from the server.
+//
+// TELNET (and TELNETS) command codes cannot be received using this method, as Read deals
+// with TELNET (and TELNETS) "unescaping", and (when appropriate) filters out TELNET (and TELNETS)
+// command codes.
 //
 // Read makes Client fit the io.Reader interface.
 func (client *Client) Read(p []byte) (n int, err error) {
@@ -117,7 +123,12 @@ func (client *Client) Read(p []byte) (n int, err error) {
 }
 
 
-// Write sends `n` bytes in 'p' to the server.
+// Write sends `n` bytes from 'p' to the server.
+//
+// Note that Write can only be used for sending TELNET (and TELNETS) data to the server.
+//
+// TELNET (and TELNETS) command codes cannot be sent using this method, as Write deals with
+// TELNET (and TELNETS) "escaping", and will properly "escape" anything written with it.
 //
 // Write makes Client fit the io.Writer interface.
 func (client *Client) Write(p []byte) (n int, err error) {
