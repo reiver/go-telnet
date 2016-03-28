@@ -15,7 +15,7 @@ type Conn struct {
 		LocalAddr() net.Addr
 		RemoteAddr() net.Addr
 	}
-	dataReader *DataReader
+	dataReader *internalDataReader
 	dataWriter *DataWriter
 }
 
@@ -45,7 +45,7 @@ func DialTo(addr string) (*Conn, error) {
 		return nil, err
 	}
 
-	dataReader := NewDataReader(conn)
+	dataReader := newDataReader(conn)
 	dataWriter := NewDataWriter(conn)
 
 	clientConn := Conn{
@@ -79,7 +79,7 @@ func DialToTLS(addr string, tlsConfig *tls.Config) (*Conn, error) {
 		return nil, err
 	}
 
-	dataReader := NewDataReader(conn)
+	dataReader := newDataReader(conn)
 	dataWriter := NewDataWriter(conn)
 
 	clientConn := Conn{

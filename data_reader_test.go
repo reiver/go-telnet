@@ -331,7 +331,7 @@ func TestDataReader(t *testing.T) {
 
 		subReader := bytes.NewReader(test.Bytes)
 
-		reader := NewDataReader(subReader)
+		reader := newDataReader(subReader)
 
 		buffer := make([]byte, 2*len(test.Bytes))
 		n, err := reader.Read(buffer)

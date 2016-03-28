@@ -55,17 +55,17 @@ var (
 // ... to this:
 //
 //	[]byte{1, 55, 2, 155, 3, 255, 4, 40, 255, 30, 20}
-type DataReader struct {
+type internalDataReader struct {
 	wrapped  io.Reader
 	buffered  *bufio.Reader
 }
 
 
-// NewDataReader creates a new DataReader reading from 'r'.
-func NewDataReader(r io.Reader) *DataReader {
+// newDataReader creates a new DataReader reading from 'r'.
+func newDataReader(r io.Reader) *internalDataReader {
 	buffered := bufio.NewReader(r)
 
-	reader := DataReader{
+	reader := internalDataReader{
 		wrapped:r,
 		buffered:buffered,
 	}
@@ -75,7 +75,7 @@ func NewDataReader(r io.Reader) *DataReader {
 
 
 // Read reads the TELNET escaped data from the  wrapped io.Reader, and "un-escapes" it into 'data'.
-func (r *DataReader) Read(data []byte) (n int, err error) {
+func (r *internalDataReader) Read(data []byte) (n int, err error) {
 
 	const IAC = 255
 
@@ -171,5 +171,3 @@ func (r *DataReader) Read(data []byte) (n int, err error) {
 
 	return n, nil
 }
-
-

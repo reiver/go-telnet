@@ -595,7 +595,7 @@ func TestStandardCallerFromClientToServer(t *testing.T) {
 		var dataWriterBuffer bytes.Buffer
 		dataWriter := NewDataWriter(&dataWriterBuffer)
 
-		dataReader := NewDataReader( bytes.NewReader([]byte{}) ) // <----------------- The important difference between the 2 loops.
+		dataReader := newDataReader( bytes.NewReader([]byte{}) ) // <----------------- The important difference between the 2 loops.
 
 		standardCallerCallTELNET(stdin, stdout, stderr, ctx, dataWriter, dataReader)
 
@@ -950,7 +950,7 @@ func TestStandardCallerFromServerToClient(t *testing.T) {
 		var dataWriterBuffer bytes.Buffer
 		dataWriter := NewDataWriter(&dataWriterBuffer)
 
-		dataReader := NewDataReader( bytes.NewReader(test.Bytes) ) // <----------------- The important difference between the 2 loops.
+		dataReader := newDataReader( bytes.NewReader(test.Bytes) ) // <----------------- The important difference between the 2 loops.
 
 		standardCallerCallTELNET(stdin, stdout, stderr, ctx, dataWriter, dataReader)
 
