@@ -286,16 +286,16 @@ One of the abilities of ANSI escape codes is to set the foreground color.
 
 Here is a table showing codes for this:
 
-	| ANSI Color   | Go string    | Go []byte                       |
-	| ------------ | ------------ | ------------------------------- |
-	| Black        | `"\x1b[30m"` | `[]byte{27, '[', '3','0', 'm'}` |
-	| Red          | `"\x1b[31m"` | `[]byte{27, '[', '3','1', 'm'}` |
-	| Green        | `"\x1b[32m"` | `[]byte{27, '[', '3','2', 'm'}` |
-	| Brown/Yellow | `"\x1b[33m"` | `[]byte{27, '[', '3','3', 'm'}` |
-	| Blue         | `"\x1b[34m"` | `[]byte{27, '[', '3','4', 'm'}` |
-	| Magenta      | `"\x1b[35m"` | `[]byte{27, '[', '3','5', 'm'}` |
-	| Cyan         | `"\x1b[36m"` | `[]byte{27, '[', '3','6', 'm'}` |
-	| Gray/White   | `"\x1b[37m"` | `[]byte{27, '[', '3','7', 'm'}` |
+	| ANSI Color   | Go string  | Go []byte                     |
+	| ------------ | ---------- | ----------------------------- |
+	| Black        | "\x1b[30m" | []byte{27, '[', '3','0', 'm'} |
+	| Red          | "\x1b[31m" | []byte{27, '[', '3','1', 'm'} |
+	| Green        | "\x1b[32m" | []byte{27, '[', '3','2', 'm'} |
+	| Brown/Yellow | "\x1b[33m" | []byte{27, '[', '3','3', 'm'} |
+	| Blue         | "\x1b[34m" | []byte{27, '[', '3','4', 'm'} |
+	| Magenta      | "\x1b[35m" | []byte{27, '[', '3','5', 'm'} |
+	| Cyan         | "\x1b[36m" | []byte{27, '[', '3','6', 'm'} |
+	| Gray/White   | "\x1b[37m" | []byte{27, '[', '3','7', 'm'} |
 
 (Note that in the `[]byte` that the first `byte` is the number `27` (which
 is the "escape" character) where the third and fouth characters are the
@@ -306,16 +306,16 @@ Setting The Background Color With ANSI Escape Codes
 
 Another of the abilities of ANSI escape codes is to set the background color.
 
-	| ANSI Color   | Go string    | Go []byte                       |
-	| ------------ | ------------ | ------------------------------- |
-	| Black        | `"\x1b[40m"` | `[]byte{27, '[', '4','0', 'm'}` |
-	| Red          | `"\x1b[41m"` | `[]byte{27, '[', '4','1', 'm'}` |
-	| Green        | `"\x1b[42m"` | `[]byte{27, '[', '4','2', 'm'}` |
-	| Brown/Yellow | `"\x1b[43m"` | `[]byte{27, '[', '4','3', 'm'}` |
-	| Blue         | `"\x1b[44m"` | `[]byte{27, '[', '4','4', 'm'}` |
-	| Magenta      | `"\x1b[45m"` | `[]byte{27, '[', '4','5', 'm'}` |
-	| Cyan         | `"\x1b[46m"` | `[]byte{27, '[', '4','6', 'm'}` |
-	| Gray/White   | `"\x1b[47m"` | `[]byte{27, '[', '4','7', 'm'}` |
+	| ANSI Color   | Go string  | Go []byte                     |
+	| ------------ | ---------- | ----------------------------- |
+	| Black        | "\x1b[40m" | []byte{27, '[', '4','0', 'm'} |
+	| Red          | "\x1b[41m" | []byte{27, '[', '4','1', 'm'} |
+	| Green        | "\x1b[42m" | []byte{27, '[', '4','2', 'm'} |
+	| Brown/Yellow | "\x1b[43m" | []byte{27, '[', '4','3', 'm'} |
+	| Blue         | "\x1b[44m" | []byte{27, '[', '4','4', 'm'} |
+	| Magenta      | "\x1b[45m" | []byte{27, '[', '4','5', 'm'} |
+	| Cyan         | "\x1b[46m" | []byte{27, '[', '4','6', 'm'} |
+	| Gray/White   | "\x1b[47m" | []byte{27, '[', '4','7', 'm'} |
 
 (Note that in the `[]byte` that the first `byte` is the number `27` (which
 is the "escape" character) where the third and fouth characters are the
