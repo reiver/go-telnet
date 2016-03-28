@@ -154,7 +154,7 @@ func (server *Server) Serve(listener net.Listener) error {
 		go func(c net.Conn) {
 			var ctx Context = NewContext().InjectLogger(logger)
 
-			var w Writer = NewDataWriter(c)
+			var w Writer = newDataWriter(c)
 			var r Reader = newDataReader(c)
 
 			handler.ServeTELNET(ctx, w, r)

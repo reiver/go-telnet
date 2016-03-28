@@ -326,7 +326,7 @@ func TestEchoHandler(t *testing.T) {
 
 		var buffer bytes.Buffer
 
-		writer := NewDataWriter(&buffer)
+		writer := newDataWriter(&buffer)
 		reader := newDataReader( bytes.NewReader(test.Bytes) )
 
 		EchoHandler.ServeTELNET(ctx, writer, reader)

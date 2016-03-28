@@ -95,7 +95,7 @@ func TestDataWriter(t *testing.T) {
 
 		subWriter := new(bytes.Buffer)
 
-		writer := NewDataWriter(subWriter)
+		writer := newDataWriter(subWriter)
 
 		n, err := writer.Write(test.Bytes)
 		if nil != err {

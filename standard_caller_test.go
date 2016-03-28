@@ -593,7 +593,7 @@ func TestStandardCallerFromClientToServer(t *testing.T) {
 		var ctx Context = nil
 
 		var dataWriterBuffer bytes.Buffer
-		dataWriter := NewDataWriter(&dataWriterBuffer)
+		dataWriter := newDataWriter(&dataWriterBuffer)
 
 		dataReader := newDataReader( bytes.NewReader([]byte{}) ) // <----------------- The important difference between the 2 loops.
 
@@ -948,7 +948,7 @@ func TestStandardCallerFromServerToClient(t *testing.T) {
 		var ctx Context = nil
 
 		var dataWriterBuffer bytes.Buffer
-		dataWriter := NewDataWriter(&dataWriterBuffer)
+		dataWriter := newDataWriter(&dataWriterBuffer)
 
 		dataReader := newDataReader( bytes.NewReader(test.Bytes) ) // <----------------- The important difference between the 2 loops.
 
