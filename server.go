@@ -152,11 +152,10 @@ func (server *Server) Serve(listener net.Listener) error {
 		// Handle the new TELNET client connection by spawning
 		// a new goroutine.
 		go func(c net.Conn) {
-//@TODO: Add proper context.
 			var ctx Context = NewContext().InjectLogger(logger)
 
-			var w Writer = c
-			var r Reader = c
+			var w Writer = NewDataWriter(c)
+			var r Reader = NewDataReader(c)
 
 			handler.ServeTELNET(ctx, w, r)
 			c.Close()
