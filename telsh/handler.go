@@ -52,7 +52,7 @@ type Handler interface {
 //	))
 //
 // Note that PromoteHandlerFunc is used to turn a HandlerFunc into a Handler.
-type HandlerFunc func(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser)error
+type HandlerFunc func(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string)error
 
 
 type internalPromotedHandlerFunc struct {
@@ -65,14 +65,21 @@ type internalPromotedHandlerFunc struct {
 	stdinPipe  io.WriteCloser
 	stdoutPipe io.ReadCloser
 	stderrPipe io.ReadCloser
+
+	args []string
 }
 
 
 // PromoteHandlerFunc turns a HandlerFunc into a Handler.
-func PromoteHandlerFunc(fn HandlerFunc) Handler {
+func PromoteHandlerFunc(fn HandlerFunc, args ...string) Handler {
 	stdin,      stdinPipe := io.Pipe()
 	stdoutPipe, stdout    := io.Pipe()
 	stderrPipe, stderr    := io.Pipe()
+
+	argsCopy := make([]string, len(args))
+	for i, datum := range args {
+		argsCopy[i] = datum
+	}
 
 	handler := internalPromotedHandlerFunc{
 		err:nil,
@@ -86,6 +93,8 @@ func PromoteHandlerFunc(fn HandlerFunc) Handler {
 		stdinPipe:stdinPipe,
 		stdoutPipe:stdoutPipe,
 		stderrPipe:stderrPipe,
+
+		args:argsCopy,
 	}
 
 	return &handler
@@ -97,7 +106,7 @@ func (handler *internalPromotedHandlerFunc) Run() error {
 		return handler.err
 	}
 
-	handler.err =  handler.fn(handler.stdin, handler.stdout, handler.stderr)
+	handler.err =  handler.fn(handler.stdin, handler.stdout, handler.stderr, handler.args...)
 
 	handler.stdin.Close()
 	handler.stdout.Close()
