@@ -238,3 +238,10 @@ func main() {
 TELNET servers made using the `"github.com/reiver/go-telnet/telsh"` sub-package will often be more useful
 as it makes it easier for you to create a *shell* interface.
 
+
+# More Information
+
+There is a lot more information about documentation on all this here: http://godoc.org/github.com/reiver/go-telnet
+
+(You should really read those.)
+
