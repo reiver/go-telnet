@@ -1,8 +1,12 @@
 # go-telnet
 
-Package **telnet** provides TELNET and TELNETS client and server implementations, for the Go programming language,
-in a style similar to the "net/http" library that is part of the Go standard library, including support for "middleware";
-TELNETS is *secure TELNET*, with the TELNET protocol over a secured TLS (or SSL) connection.
+Package **telnet** provides TELNET and TELNETS client and server implementations, for the Go programming language.
+
+
+The **telnet** package provides an API in a style similar to the "net/http" library that is part of the Go standard library, including support for "middleware".
+
+
+(TELNETS is *secure TELNET*, with the TELNET protocol over a secured TLS (or SSL) connection.)
 
 
 ## Documention
@@ -77,6 +81,9 @@ func main() {
 }
 
 ```
+
+If you wanted to test out this very very simple TELNETS server, get the `telnets` client program from here:
+https://github.com/reiver/telnets
 
 
 ## TELNET Client Example:
