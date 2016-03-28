@@ -247,6 +247,50 @@ You can make a simple (secure) TELNETS client with code like the following:
 	}
 
 
+TELNET Story
+
+The TELNET protocol is best known for providing a means of connecting to a remote computer, using a (text-based) shell interface, and being able to interact with it, (more or less) as if you were sitting at that computer.
+
+(Shells are also known as command-line interfaces or CLIs.)
+
+Although this was the original usage of the TELNET protocol, it can be (and is) used for other purposes as well.
+
+
+The Era
+
+The TELNET protocol came from an era in computing when text-based shell interface where the common way of interacting with computers.
+
+The common interface for computers during this era was a keyboard and a monochromatic (i.e., single color) text-based monitors called "video terminals".
+
+(The word "video" in that era of computing did not refer to things such as movies. But instead was meant to contrast it with paper. In particular, the teletype machines, which were typewriter like devices that had a keyboard, but instead of having a monitor had paper that was printed onto.)
+
+
+Early Office Computers
+
+In that era, in the early days of office computers, it was rare that an individual would have a computer at their desk. (A single computer was much too expensive.)
+
+Instead, there would be a single central computer that everyone would share. The style of computer used (for the single central shared computer) was called a "mainframe".
+
+What individuals would have at their desks, instead of their own compuer, would be some type of video terminal.
+
+The different types of video terminals had named such as:
+
+• VT52
+
+• VT100
+
+• VT220
+
+• VT240
+
+("VT" in those named was short for "video terminal".)
+
+
+Teletype
+
+To understand this era, we need to go back a bit in time to what came before it: teletypes.
+
+
 Terminal Codes
 
 Terminal codes (also sometimes called 'terminal control codes') are used to issue various kinds of commands
