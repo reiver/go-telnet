@@ -1,27 +1,18 @@
 package telnet
 
 
-import (
-	"io"
-)
-
-
 // A Handler serves a TELNET (or TELNETS) connection.
 //
-// Writing data to the io.Writer passed as an argument the ServeTELNET method
+// Writing data to the Writer passed as an argument to the ServeTELNET method
 // will send data to the TELNET (or TELNETS) client.
 //
-// Reading data from the io.Reader passed as an argument to the ServeTELNET method
-// will receive data from the TELNET (or TELNETS) client.
+// Reading data from the Reader passed as an argument to the ServeTELNET method
+// will receive data from the TELNET client.
 //
-// The Reader's Read method and Writer's Write method receive and send
-// the raw TELNET (or TELNETS) communications!
+// The Writer's Write method sends "escaped" TELNET (and TELNETS) data.
 //
-// Meaning, for example, that it includes commands and escaping.
-//
-// You can use DataReader to un-escape raw TELNET (or TELNETS) communications.
-//
-// And you can use DataWriter to escape into raw TELNET (or TELNETS) communications.
+// The Reader's Read method "un-escapes" TELNET (and TELNETS) data, and filters
+// out TELNET (and TELNETS) command sequences.
 type Handler interface {
-	ServeTELNET(Context, io.Writer, io.Reader)
+	ServeTELNET(Context, Writer, Reader)
 }

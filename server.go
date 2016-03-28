@@ -3,7 +3,6 @@ package telnet
 
 import (
 	"crypto/tls"
-	"io"
 	"net"
 )
 
@@ -156,8 +155,8 @@ func (server *Server) Serve(listener net.Listener) error {
 //@TODO: Add proper context.
 			var ctx Context = NewContext().InjectLogger(logger)
 
-			var w io.Writer = c
-			var r io.Reader = c
+			var w Writer = c
+			var r Reader = c
 
 			handler.ServeTELNET(ctx, w, r)
 			c.Close()

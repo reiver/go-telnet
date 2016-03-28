@@ -3,8 +3,6 @@ package telnet
 
 import (
 	"github.com/reiver/go-oi"
-
-	"io"
 )
 
 
@@ -16,20 +14,16 @@ var EchoHandler Handler = internalEchoHandler{}
 type internalEchoHandler struct{}
 
 
-func (handler internalEchoHandler) ServeTELNET(ctx Context, w io.Writer, r io.Reader) {
-
-	writer := NewDataWriter(w)
-	reader := NewDataReader(r)
-
+func (handler internalEchoHandler) ServeTELNET(ctx Context, w Writer, r Reader) {
 
 	var buffer [1]byte // Seems like the length of the buffer needs to be small, otherwise will have to wait for buffer to fill up.
 	p := buffer[:]
 
 	for {
-		n, err := reader.Read(p)
+		n, err := r.Read(p)
 
 		if n > 0 {
-			oi.LongWrite(writer, p[:n])
+			oi.LongWrite(w, p[:n])
 		}
 
 		if nil != err {
