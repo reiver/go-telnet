@@ -137,7 +137,7 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, writer telnet
 
 
 		line.WriteByte(p[0])
-		logger.Tracef("Received: %q (%d).", p[0], p[0])
+		//logger.Tracef("Received: %q (%d).", p[0], p[0])
 
 
 		if '\n' == p[0] {
@@ -154,6 +154,8 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, writer telnet
 
 //@TODO: support piping.
 			fields := strings.Fields(lineString)
+			logger.Debugf("Have %d tokens.", len(fields))
+			logger.Tracef("Tokens: %v", fields)
 			if len(fields) <= 0 {
 				line.Reset()
 				if _, err := oi.LongWrite(writer, promptBytes); nil != err {
@@ -266,10 +268,10 @@ func connect(ctx telnet.Context, writer io.Writer, reader io.Reader) {
 				break
 			}
 
-			logger.Tracef("Sending: %q.", p)
+			//logger.Tracef("Sending: %q.", p)
 //@TODO: Should we be checking for errors?
 			oi.LongWrite(writer, p)
-			logger.Tracef("Sent: %q.", p)
+			//logger.Tracef("Sent: %q.", p)
 		}
 	}(logger)
 }
