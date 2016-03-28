@@ -66,6 +66,26 @@ func (telnetHandler *ShellHandler) MustRegister(name string, producer Producer) 
 }
 
 
+func (telnetHandler *ShellHandler) RegisterHandlerFunc(name string, handlerFunc HandlerFunc) error {
+
+	produce := func(ctx telnet.Context, name string, args ...string) Handler {
+		return PromoteHandlerFunc(handlerFunc, args...)
+	}
+
+	producer := ProducerFunc(produce)
+
+	return telnetHandler.Register(name, producer)
+}
+
+func (telnetHandler *ShellHandler) MustRegisterHandlerFunc(name string, handlerFunc HandlerFunc) *ShellHandler {
+	if err := telnetHandler.RegisterHandlerFunc(name, handlerFunc); nil != err {
+		panic(err)
+	}
+
+	return telnetHandler
+}
+
+
 func (telnetHandler *ShellHandler) RegisterElse(producer Producer) error {
 
 	telnetHandler.muxtex.Lock()
