@@ -73,7 +73,7 @@ func main() {
 
 	var handler telnet.Handler = telnet.EchoHandler
 	
-	err := telnet.ListenAndServeTLS(":992", "cert.pem", "key.pem", handler)
+	err := telnet.ListenAndServeTLS(":5555", "cert.pem", "key.pem", handler)
 	if nil != err {
 		//@TODO: Handle this error better.
 		panic(err)
