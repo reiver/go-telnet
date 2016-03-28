@@ -13,7 +13,7 @@ var (
 )
 
 
-// A DataReader deals with "un-escaping" according to the TELNET protocol.
+// An internalDataReader deals with "un-escaping" according to the TELNET protocol.
 //
 // In the TELNET protocol byte value 255 is special.
 //
