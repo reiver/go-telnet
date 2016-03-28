@@ -84,7 +84,7 @@ func (telnetHandler *ShellHandler) MustRegisterElse(producer Producer) *ShellHan
 }
 
 
-func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, r io.Reader) {
+func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, writer telnet.Writer, reader telnet.Reader) {
 
 	logger := ctx.Logger()
 	if nil == logger {
@@ -93,10 +93,6 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, w io.Writer, 
 
 
 	colonSpaceCommandNotFoundEL := []byte(": command not found\r\n")
-
-
-	writer := telnet.NewDataWriter(w)
-	reader := telnet.NewDataReader(r)
 
 
 	var prompt          bytes.Buffer
