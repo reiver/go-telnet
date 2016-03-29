@@ -151,18 +151,34 @@ func (server *Server) Serve(listener net.Listener) error {
 
 		// Handle the new TELNET client connection by spawning
 		// a new goroutine.
-		go func(c net.Conn) {
-			var ctx Context = NewContext().InjectLogger(logger)
-
-			var w Writer = newDataWriter(c)
-			var r Reader = newDataReader(c)
-
-			handler.ServeTELNET(ctx, w, r)
-			c.Close()
-		}(conn)
+		go server.handle(conn, handler)
 		logger.Debugf("Spawned handler to handle connection from %q.", conn.RemoteAddr())
-        }
+	}
 }
+
+func (server *Server) handle(c net.Conn, handler Handler) {
+	defer c.Close()
+
+	logger := server.logger()
+
+
+	defer func(){
+		if r := recover(); nil != r {
+			if nil != logger {
+				logger.Errorf("Recovered from: (%T) %v", r, r)
+			}
+		}
+	}()
+
+	var ctx Context = NewContext().InjectLogger(logger)
+
+	var w Writer = newDataWriter(c)
+	var r Reader = newDataReader(c)
+
+	handler.ServeTELNET(ctx, w, r)
+	c.Close()
+}
+
 
 
 func (server *Server) logger() Logger {
