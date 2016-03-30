@@ -30,6 +30,47 @@ using the specified "cert.pem" and "key.pem" files.
 	}
 
 
+Example TELNET Client:
+
+DialToAndCall creates a (un-secure) TELNET client, which connects to a given address using the specified caller.
+
+	package main
+	
+	import (
+		"github.com/reiver/go-telnet"
+	)
+	
+	func main() {
+		var caller Caller = telnet.StandardCaller
+
+		//@TOOD: replace "example.net:23" with address you want to connect to.
+		telnet.DialToAndCall("example.net:23", caller)
+	}
+
+
+Example TELNETS Client:
+
+DialToAndCallTLS creates a (secure) TELNETS client, which connects to a given address using the specified caller.
+
+	package main
+	
+	import (
+		"github.com/reiver/go-telnet"
+
+		"crypto/tls"
+	)
+	
+	func main() {
+		//@TODO: Configure the TLS connection here, if you need to.
+		tlsConfig := &tls.Config{}
+
+		var caller Caller = telnet.StandardCaller
+		
+		//@TOOD: replace "example.net:992" with address you want to connect to.
+		telnet.DialToAndCallTLS("example.net:992", caller, tlsConfig)
+	}
+
+
 TELNET vs TELNETS
 
 If you are communicating over the open Internet, you should be using (the secure) TELNETS protocol and ListenAndServeTLS.
