@@ -72,14 +72,13 @@ Here is a more "unpacked" example:
 		"github.com/reiver/go-telnet"
 		"github.com/reiver/go-telnet/telsh"
 		
-		"fmt"
 		"io"
 		"time"
 	)
 	
 	
 	var (
-		shellHandler := telsh.NewShellHandler()
+		shellHandler = telsh.NewShellHandler()
 	)
 	
 	
