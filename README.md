@@ -95,7 +95,7 @@ import (
 )
 
 func main() {
-	var caller Caller = telnet.StandardCaller
+	var caller telnet.Caller = telnet.StandardCaller
 
 	//@TOOD: replace "example.net:5555" with address you want to connect to.
 	telnet.DialToAndCall("example.net:5555", caller)
@@ -117,7 +117,7 @@ func main() {
 	//@TODO: Configure the TLS connection here, if you need to.
 	tlsConfig := &tls.Config{}
 
-	var caller Caller = telnet.StandardCaller
+	var caller telnet.Caller = telnet.StandardCaller
 
 	//@TOOD: replace "example.net:5555" with address you want to connect to.
 	telnet.DialToAndCallTLS("example.net:5555", caller, tlsConfig)

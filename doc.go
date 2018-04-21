@@ -41,7 +41,7 @@ DialToAndCall creates a (un-secure) TELNET client, which connects to a given add
 	)
 	
 	func main() {
-		var caller Caller = telnet.StandardCaller
+		var caller telnet.Caller = telnet.StandardCaller
 
 		//@TOOD: replace "example.net:23" with address you want to connect to.
 		telnet.DialToAndCall("example.net:23", caller)
@@ -64,7 +64,7 @@ DialToAndCallTLS creates a (secure) TELNETS client, which connects to a given ad
 		//@TODO: Configure the TLS connection here, if you need to.
 		tlsConfig := &tls.Config{}
 
-		var caller Caller = telnet.StandardCaller
+		var caller telnet.Caller = telnet.StandardCaller
 		
 		//@TOOD: replace "example.net:992" with address you want to connect to.
 		telnet.DialToAndCallTLS("example.net:992", caller, tlsConfig)
@@ -261,7 +261,7 @@ You can make a simple (un-secure) TELNET client with code like the following:
 	
 	
 	func main() {
-		var caller Caller = telnet.StandardCaller
+		var caller telnet.Caller = telnet.StandardCaller
 		
 		//@TOOD: replace "example.net:5555" with address you want to connect to.
 		telnet.DialToAndCall("example.net:5555", caller)
@@ -281,7 +281,7 @@ You can make a simple (secure) TELNETS client with code like the following:
 	
 	
 	func main() {
-		var caller Caller = telnet.StandardCaller
+		var caller telnet.Caller = telnet.StandardCaller
 		
 		//@TOOD: replace "example.net:5555" with address you want to connect to.
 		telnet.DialToAndCallTLS("example.net:5555", caller)
