@@ -139,25 +139,24 @@ import (
 	"github.com/reiver/go-telnet"
 	"github.com/reiver/go-telnet/telsh"
 
-	"fmt"
 	"io"
 	"time"
 )
 
 
-func fiveHandler(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser)error {
+func fiveHandler(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string) error {
 	oi.LongWriteString(stdout, "The number FIVE looks like this: 5\r\n")
 
 	return nil
 }
 
-func fiveProducer(ctx telsh.Context, name string, args ...string) telsh.Handler{
+func fiveProducer(ctx telnet.Context, name string, args ...string) telsh.Handler{
 	return telsh.PromoteHandlerFunc(fiveHandler)
 }
 
 
 
-func danceHandler(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser)error {
+func danceHandler(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string) error {
 	for i:=0; i<20; i++ {
 		oi.LongWriteString(stdout, "\r⠋")
 		time.Sleep(50*time.Millisecond)
@@ -194,7 +193,7 @@ func danceHandler(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteClo
 	return nil
 }
 
-func danceProducer(ctx telsh.Context, name string, args ...string) telsh.Handler{
+func danceProducer(ctx telnet.Context, name string, args ...string) telsh.Handler{
 
 	return telsh.PromoteHandlerFunc(danceHandler)
 }
