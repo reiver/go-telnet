@@ -430,7 +430,7 @@ And finally, the ANSI escape sequence is finished off with the 'm' character.
 
 To show this in a more complete example, our `dateHandlerFunc` from before could incorporate ANSI escape sequences as follows:
 
-	func dateHandlerFunc(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser) error {
+	func dateHandlerFunc(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string) error {
 		const layout = "Mon Jan 2 15:04:05 -0700 MST 2006"
 		s := "\x1b[44;37;1m" + time.Now().Format(layout) + "\x1b[0m"
 		
