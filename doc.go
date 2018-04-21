@@ -41,7 +41,7 @@ DialToAndCall creates a (un-secure) TELNET client, which connects to a given add
 	)
 	
 	func main() {
-		var caller Caller = telnet.StandardCaller
+		var caller telnet.Caller = telnet.StandardCaller
 
 		//@TOOD: replace "example.net:23" with address you want to connect to.
 		telnet.DialToAndCall("example.net:23", caller)
@@ -64,7 +64,7 @@ DialToAndCallTLS creates a (secure) TELNETS client, which connects to a given ad
 		//@TODO: Configure the TLS connection here, if you need to.
 		tlsConfig := &tls.Config{}
 
-		var caller Caller = telnet.StandardCaller
+		var caller telnet.Caller = telnet.StandardCaller
 		
 		//@TOOD: replace "example.net:992" with address you want to connect to.
 		telnet.DialToAndCallTLS("example.net:992", caller, tlsConfig)
@@ -137,7 +137,7 @@ For this to actually work, we need to have code for the `date` and `animate` com
 
 The actual implemenation for the `date` command could be done like the following:
 
-	func dateHandlerFunc(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser) error {
+	func dateHandlerFunc(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string) error {
 		const layout = "Mon Jan 2 15:04:05 -0700 MST 2006"
 		s := time.Now().Format(layout)
 		
@@ -149,7 +149,7 @@ The actual implemenation for the `date` command could be done like the following
 	}
 	
 	
-	func dateProducerFunc(ctx telsh.Context, name string, args ...string) telsh.Handler{
+	func dateProducerFunc(ctx telnet.Context, name string, args ...string) telsh.Handler{
 		return telsh.PromoteHandlerFunc(dateHandler)
 	}
 	
@@ -160,7 +160,7 @@ Note that your "real" work is in the `dateHandlerFunc` func.
 
 And the actual implementation for the `animate` command could be done as follows:
 
-	func animateHandlerFunc(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser) error {
+	func animateHandlerFunc(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string) error {
 		
 		for i:=0; i<20; i++ {
 			oi.LongWriteString(stdout, "\r⠋")
@@ -199,7 +199,7 @@ And the actual implementation for the `animate` command could be done as follows
 	}
 	
 	
-	func animateProducerFunc(ctx telsh.Context, name string, args ...string) telsh.Handler{
+	func animateProducerFunc(ctx telnet.Context, name string, args ...string) telsh.Handler{
 		return telsh.PromoteHandlerFunc(animateHandler)
 	}
 	
@@ -261,7 +261,7 @@ You can make a simple (un-secure) TELNET client with code like the following:
 	
 	
 	func main() {
-		var caller Caller = telnet.StandardCaller
+		var caller telnet.Caller = telnet.StandardCaller
 		
 		//@TOOD: replace "example.net:5555" with address you want to connect to.
 		telnet.DialToAndCall("example.net:5555", caller)
@@ -281,7 +281,7 @@ You can make a simple (secure) TELNETS client with code like the following:
 	
 	
 	func main() {
-		var caller Caller = telnet.StandardCaller
+		var caller telnet.Caller = telnet.StandardCaller
 		
 		//@TOOD: replace "example.net:5555" with address you want to connect to.
 		telnet.DialToAndCallTLS("example.net:5555", caller)
@@ -430,7 +430,7 @@ And finally, the ANSI escape sequence is finished off with the 'm' character.
 
 To show this in a more complete example, our `dateHandlerFunc` from before could incorporate ANSI escape sequences as follows:
 
-	func dateHandlerFunc(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser) error {
+	func dateHandlerFunc(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string) error {
 		const layout = "Mon Jan 2 15:04:05 -0700 MST 2006"
 		s := "\x1b[44;37;1m" + time.Now().Format(layout) + "\x1b[0m"
 		

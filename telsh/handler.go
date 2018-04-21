@@ -38,11 +38,11 @@ type Handler interface {
 //	
 //	shellHandler.Register("five", telsh.ProducerFunc(
 //		
-//		func(ctx Context, name string, args ...string) telsh.Handler{
+//		func(ctx telnet.Context, name string, args ...string) telsh.Handler{
 //		
 //			return telsh.PromoteHandlerFunc(
 //				
-//				func(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser) error {
+//				func(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string) error {
 //					oi.LongWrite(stdout, []byte{'5', '\r', '\n'})
 //					
 //					return nil
