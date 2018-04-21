@@ -137,7 +137,7 @@ For this to actually work, we need to have code for the `date` and `animate` com
 
 The actual implemenation for the `date` command could be done like the following:
 
-	func dateHandlerFunc(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser) error {
+	func dateHandlerFunc(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string) error {
 		const layout = "Mon Jan 2 15:04:05 -0700 MST 2006"
 		s := time.Now().Format(layout)
 		
@@ -149,7 +149,7 @@ The actual implemenation for the `date` command could be done like the following
 	}
 	
 	
-	func dateProducerFunc(ctx telsh.Context, name string, args ...string) telsh.Handler{
+	func dateProducerFunc(ctx telnet.Context, name string, args ...string) telsh.Handler{
 		return telsh.PromoteHandlerFunc(dateHandler)
 	}
 	
@@ -160,7 +160,7 @@ Note that your "real" work is in the `dateHandlerFunc` func.
 
 And the actual implementation for the `animate` command could be done as follows:
 
-	func animateHandlerFunc(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser) error {
+	func animateHandlerFunc(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string) error {
 		
 		for i:=0; i<20; i++ {
 			oi.LongWriteString(stdout, "\r⠋")
@@ -199,7 +199,7 @@ And the actual implementation for the `animate` command could be done as follows
 	}
 	
 	
-	func animateProducerFunc(ctx telsh.Context, name string, args ...string) telsh.Handler{
+	func animateProducerFunc(ctx telnet.Context, name string, args ...string) telsh.Handler{
 		return telsh.PromoteHandlerFunc(animateHandler)
 	}
 	
