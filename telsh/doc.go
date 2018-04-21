@@ -25,9 +25,9 @@ Here is an example usage:
 		
 		if err := telnetHandler.RegisterElse(
 			telsh.ProducerFunc(
-				func(ctx telsh.Context, name string, args ...string) telsh.Handler {
+				func(ctx telnet.Context, name string, args ...string) telsh.Handler {
 					return telsh.PromoteHandlerFunc(
-						func(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser) error {
+						func(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string) error {
 							oi.LongWrite(stdout, []byte{'w','a','t','?', '\r','\n'})
 							
 							return nil
@@ -41,9 +41,9 @@ Here is an example usage:
 		
 		if err := telnetHandler.Register("help",
 			telsh.ProducerFunc(
-				func(ctx telsh.Context, name string, args ...string) telsh.Handler {
+				func(ctx telnet.Context, name string, args ...string) telsh.Handler {
 				return telsh.PromoteHandlerFunc(
-						func(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser) error {
+						func(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string) error {
 							oi.LongWrite(stdout, []byte{'r','t','f','m','!', '\r','\n'})
 							
 							return nil
@@ -100,12 +100,12 @@ Here is a more "unpacked" example:
 	}
 	
 	
-	func producer(ctx telsh.Context, name string, args ...string) telsh.Handler{
+	func producer(ctx telnet.Context, name string, args ...string) telsh.Handler{
 		return telsh.PromoteHandlerFunc(handler)
 	}
 	
 	
-	func handler(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser) error {
+	func handler(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string) error {
 		for i:=0; i<20; i++ {
 			oi.LongWriteString(stdout, "\r⠋")
 			time.Sleep(50*time.Millisecond)
