@@ -26,21 +26,7 @@ func (caller internalStandardCaller) CallTELNET(ctx Context, w Writer, r Reader)
 func standardCallerCallTELNET(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, ctx Context, w Writer, r Reader) {
 
 	go func(writer io.Writer, reader io.Reader) {
-
-		var buffer [1]byte // Seems like the length of the buffer needs to be small, otherwise will have to wait for buffer to fill up.
-		p := buffer[:]
-
-		for {
-			// Read 1 byte.
-			n, err := reader.Read(p)
-			if n <= 0 && nil == err {
-				continue
-			} else if n <= 0 && nil != err {
-				break
-			}
-
-			oi.LongWrite(writer, p)
-		}
+		io.Copy(writer, reader)
 	}(stdout, r)
 
 	var buffer bytes.Buffer
