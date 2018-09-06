@@ -1,6 +1,5 @@
 package telnet
 
-
 import (
 	"github.com/reiver/go-oi"
 
@@ -13,20 +12,16 @@ import (
 	"time"
 )
 
-
 // StandardCaller is a simple TELNET client which sends to the server any data it gets from os.Stdin
 // as TELNET (and TELNETS) data, and writes any TELNET (or TELNETS) data it receives from
 // the server to os.Stdout, and writes any error it has to os.Stderr.
 var StandardCaller Caller = internalStandardCaller{}
 
-
 type internalStandardCaller struct{}
-
 
 func (caller internalStandardCaller) CallTELNET(ctx Context, w Writer, r Reader) {
 	standardCallerCallTELNET(os.Stdin, os.Stdout, os.Stderr, ctx, w, r)
 }
-
 
 func standardCallerCallTELNET(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, ctx Context, w Writer, r Reader) {
 
@@ -48,12 +43,10 @@ func standardCallerCallTELNET(stdin io.ReadCloser, stdout io.WriteCloser, stderr
 		}
 	}(stdout, r)
 
-
-
 	var buffer bytes.Buffer
 	var p []byte
 
-	var crlfBuffer [2]byte = [2]byte{'\r','\n'}
+	var crlfBuffer [2]byte = [2]byte{'\r', '\n'}
 	crlf := crlfBuffer[:]
 
 	scanner := bufio.NewScanner(stdin)
@@ -75,14 +68,12 @@ func standardCallerCallTELNET(stdin io.ReadCloser, stdout io.WriteCloser, stderr
 			return
 		}
 
-
 		buffer.Reset()
 	}
 
 	// Wait a bit to receive data from the server (that we would send to io.Stdout).
 	time.Sleep(3 * time.Millisecond)
 }
-
 
 func scannerSplitFunc(data []byte, atEOF bool) (advance int, token []byte, err error) {
 	if atEOF {
