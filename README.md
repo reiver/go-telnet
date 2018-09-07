@@ -25,7 +25,7 @@ This particular TELNET server just echos back to the user anything they "submit"
 (By default, a TELNET client does *not* send anything to the server until the [Enter] key is pressed.
 "Submit" means typing something and then pressing the [Enter] key.)
 
-```
+```go
 package main
 
 import (
@@ -62,7 +62,7 @@ The code to make a TELNETS server is very similar to the code to make a TELNET s
 (The difference between we use the `telnet.ListenAndServeTLS` func instead of the
 `telnet.ListenAndServe` func.)
 
-```
+```go
 package main
 
 import (
@@ -87,7 +87,8 @@ https://github.com/reiver/telnets
 
 
 ## TELNET Client Example:
-```
+
+```go
 package main
 
 import (
@@ -104,7 +105,7 @@ func main() {
 
 
 ## TELNETS Client Example:
-```
+```go
 package main
 
 import (
@@ -130,7 +131,7 @@ func main() {
 A more useful TELNET servers can be made using the `"github.com/reiver/go-telnet/telsh"` sub-package.
 
 For example:
-```
+```go
 package main
 
 
