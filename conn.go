@@ -129,9 +129,7 @@ func DialToTLSTimeout(addr string, timeout time.Duration, tlsConfig *tls.Config)
 		addr = "127.0.0.1:telnets"
 	}
 
-	d:= net.Dialer{
-		Timeout: timeout
-	}
+	d := net.Dialer{Timeout: timeout}
 	conn, err := tls.DialWithDialer(d, network, addr, tlsConfig)
 	if nil != err {
 		return nil, err
