@@ -130,7 +130,7 @@ func DialToTLSTimeout(addr string, timeout time.Duration, tlsConfig *tls.Config)
 	}
 
 	d := net.Dialer{Timeout: timeout}
-	conn, err := tls.DialWithDialer(d, network, addr, tlsConfig)
+	conn, err := tls.DialWithDialer(&d, network, addr, tlsConfig)
 	if nil != err {
 		return nil, err
 	}
