@@ -92,6 +92,10 @@ func (r *internalDataReader) Read(data []byte) (n int, err error) {
 	for len(p) > 0 {
 		var b byte
 
+        if n > 0 && r.buffered.Buffered() < 1 {
+			break
+		}
+
 		b, err = r.buffered.ReadByte()
 		if nil != err {
 			return n, err
