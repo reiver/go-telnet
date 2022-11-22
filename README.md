@@ -8,12 +8,16 @@ The **telnet** package provides an API in a style similar to the "net/http" libr
 
 (TELNETS is *secure TELNET*, with the TELNET protocol over a secured TLS (or SSL) connection.)
 
+## Fork
+
+Note that the original repo at https//github.com/reiver/go-telnet seems to be abandoned. This repo intends to pick up the pending fixes and at least try to maintain it.
+
 
 ## Documention
 
-Online documentation, which includes examples, can be found at: http://godoc.org/github.com/reiver/go-telnet
+Online documentation, which includes examples, can be found at: http://godoc.org/github.com/matjam/go-telnet
 
-[![GoDoc](https://godoc.org/github.com/reiver/go-telnet?status.svg)](https://godoc.org/github.com/reiver/go-telnet)
+[![GoDoc](https://godoc.org/github.com/matjam/go-telnet?status.svg)](https://godoc.org/github.com/matjam/go-telnet)
 
 
 ## Very Simple TELNET Server Example
@@ -91,7 +95,7 @@ https://github.com/reiver/telnets
 package main
 
 import (
-	"github.com/reiver/go-telnet"
+	"github.com/matjam/go-telnet"
 )
 
 func main() {
@@ -127,7 +131,7 @@ func main() {
 
 ##  TELNET Shell Server Example
 
-A more useful TELNET servers can be made using the `"github.com/reiver/go-telnet/telsh"` sub-package.
+A more useful TELNET servers can be made using the `"github.com/matjam/go-telnet/telsh"` sub-package.
 
 For example:
 ```
@@ -240,13 +244,13 @@ func main() {
 }
 ```
 
-TELNET servers made using the `"github.com/reiver/go-telnet/telsh"` sub-package will often be more useful
+TELNET servers made using the `"github.com/matjam/go-telnet/telsh"` sub-package will often be more useful
 as it makes it easier for you to create a *shell* interface.
 
 
 # More Information
 
-There is a lot more information about documentation on all this here: http://godoc.org/github.com/reiver/go-telnet
+There is a lot more information about documentation on all this here: http://godoc.org/github.com/matjam/go-telnet
 
 (You should really read those.)
 
