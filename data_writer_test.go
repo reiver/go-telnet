@@ -1,16 +1,14 @@
 package telnet
 
-
 import (
 	"bytes"
 
 	"testing"
 )
 
-
 func TestDataWriter(t *testing.T) {
 
-	tests := []struct{
+	tests := []struct {
 		Bytes    []byte
 		Expected []byte
 	}{
@@ -18,8 +16,6 @@ func TestDataWriter(t *testing.T) {
 			Bytes:    []byte{},
 			Expected: []byte{},
 		},
-
-
 
 		{
 			Bytes:    []byte("apple"),
@@ -34,37 +30,31 @@ func TestDataWriter(t *testing.T) {
 			Expected: []byte("cherry"),
 		},
 
-
-
 		{
 			Bytes:    []byte("apple banana cherry"),
 			Expected: []byte("apple banana cherry"),
 		},
 
-
-
 		{
 			Bytes:    []byte{255},
-			Expected: []byte{255,255},
+			Expected: []byte{255, 255},
 		},
 		{
-			Bytes:    []byte{255,255},
-			Expected: []byte{255,255,255,255},
+			Bytes:    []byte{255, 255},
+			Expected: []byte{255, 255, 255, 255},
 		},
 		{
-			Bytes:    []byte{255,255,255},
-			Expected: []byte{255,255,255,255,255,255},
+			Bytes:    []byte{255, 255, 255},
+			Expected: []byte{255, 255, 255, 255, 255, 255},
 		},
 		{
-			Bytes:    []byte{255,255,255,255},
-			Expected: []byte{255,255,255,255,255,255,255,255},
+			Bytes:    []byte{255, 255, 255, 255},
+			Expected: []byte{255, 255, 255, 255, 255, 255, 255, 255},
 		},
 		{
-			Bytes:    []byte{255,255,255,255,255},
-			Expected: []byte{255,255,255,255,255,255,255,255,255,255},
+			Bytes:    []byte{255, 255, 255, 255, 255},
+			Expected: []byte{255, 255, 255, 255, 255, 255, 255, 255, 255, 255},
 		},
-
-
 
 		{
 			Bytes:    []byte("apple\xffbanana\xffcherry"),
@@ -74,9 +64,6 @@ func TestDataWriter(t *testing.T) {
 			Bytes:    []byte("\xffapple\xffbanana\xffcherry\xff"),
 			Expected: []byte("\xff\xffapple\xff\xffbanana\xff\xffcherry\xff\xff"),
 		},
-
-
-
 
 		{
 			Bytes:    []byte("apple\xff\xffbanana\xff\xffcherry"),
@@ -88,8 +75,7 @@ func TestDataWriter(t *testing.T) {
 		},
 	}
 
-//@TODO: Add random tests.
-
+	//@TODO: Add random tests.
 
 	for testNumber, test := range tests {
 

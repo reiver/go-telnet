@@ -4,42 +4,39 @@ in a style similar to the "net/http" library that is part of the Go standard lib
 including support for "middleware"; TELNETS is secure TELNET, with the TELNET protocol
 over a secured TLS (or SSL) connection.
 
-
-Example TELNET Server
+# Example TELNET Server
 
 ListenAndServe starts a (un-secure) TELNET server with a given address and handler.
 
 	handler := telnet.EchoHandler
-	
+
 	err := telnet.ListenAndServe(":23", handler)
 	if nil != err {
 		panic(err)
 	}
 
-
-Example TELNETS Server
+# Example TELNETS Server
 
 ListenAndServeTLS starts a (secure) TELNETS server with a given address and handler,
 using the specified "cert.pem" and "key.pem" files.
 
 	handler := telnet.EchoHandler
-	
+
 	err := telnet.ListenAndServeTLS(":992", "cert.pem", "key.pem", handler)
 	if nil != err {
 		panic(err)
 	}
-
 
 Example TELNET Client:
 
 DialToAndCall creates a (un-secure) TELNET client, which connects to a given address using the specified caller.
 
 	package main
-	
+
 	import (
 		"github.com/reiver/go-telnet"
 	)
-	
+
 	func main() {
 		var caller telnet.Caller = telnet.StandardCaller
 
@@ -47,31 +44,29 @@ DialToAndCall creates a (un-secure) TELNET client, which connects to a given add
 		telnet.DialToAndCall("example.net:23", caller)
 	}
 
-
 Example TELNETS Client:
 
 DialToAndCallTLS creates a (secure) TELNETS client, which connects to a given address using the specified caller.
 
 	package main
-	
+
 	import (
 		"github.com/reiver/go-telnet"
 
 		"crypto/tls"
 	)
-	
+
 	func main() {
 		//@TODO: Configure the TLS connection here, if you need to.
 		tlsConfig := &tls.Config{}
 
 		var caller telnet.Caller = telnet.StandardCaller
-		
+
 		//@TOOD: replace "example.net:992" with address you want to connect to.
 		telnet.DialToAndCallTLS("example.net:992", caller, tlsConfig)
 	}
 
-
-TELNET vs TELNETS
+# TELNET vs TELNETS
 
 If you are communicating over the open Internet, you should be using (the secure) TELNETS protocol and ListenAndServeTLS.
 
@@ -79,8 +74,7 @@ If you are communicating just on localhost, then using just (the un-secure) TELN
 
 If you are not sure which to use, use TELNETS and ListenAndServeTLS.
 
-
-Example TELNET Shell Server
+# Example TELNET Shell Server
 
 The previous 2 exaple servers were very very simple. Specifically, they just echoed back whatever
 you submitted to it.
@@ -102,29 +96,28 @@ called a "command line interface" or "CLI") which most people would expect when 
 
 For example:
 
-
 	package main
-	
-	
+
+
 	import (
 		"github.com/reiver/go-oi"
 		"github.com/reiver/go-telnet"
 		"github.com/reiver/go-telnet/telsh"
-		
+
 		"time"
 	)
-	
-	
+
+
 	func main() {
-		
+
 		shellHandler := telsh.NewShellHandler()
-		
+
 		commandName := "date"
 		shellHandler.Register(commandName, danceProducer)
-		
+
 		commandName = "animate"
 		shellHandler.Register(commandName, animateProducer)
-		
+
 		addr := ":23"
 		if err := telnet.ListenAndServe(addr, shellHandler); nil != err {
 			panic(err)
@@ -140,20 +133,20 @@ The actual implemenation for the `date` command could be done like the following
 	func dateHandlerFunc(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string) error {
 		const layout = "Mon Jan 2 15:04:05 -0700 MST 2006"
 		s := time.Now().Format(layout)
-		
+
 		if _, err := oi.LongWriteString(stdout, s); nil != err {
 			return err
 		}
-		
+
 		return nil
 	}
-	
-	
+
+
 	func dateProducerFunc(ctx telnet.Context, name string, args ...string) telsh.Handler{
 		return telsh.PromoteHandlerFunc(dateHandler)
 	}
-	
-	
+
+
 	var dateProducer = ProducerFunc(dateProducerFunc)
 
 Note that your "real" work is in the `dateHandlerFunc` func.
@@ -161,54 +154,54 @@ Note that your "real" work is in the `dateHandlerFunc` func.
 And the actual implementation for the `animate` command could be done as follows:
 
 	func animateHandlerFunc(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string) error {
-		
+
 		for i:=0; i<20; i++ {
 			oi.LongWriteString(stdout, "\r⠋")
 			time.Sleep(50*time.Millisecond)
-			
+
 			oi.LongWriteString(stdout, "\r⠙")
 			time.Sleep(50*time.Millisecond)
-			
+
 			oi.LongWriteString(stdout, "\r⠹")
 			time.Sleep(50*time.Millisecond)
-			
+
 			oi.LongWriteString(stdout, "\r⠸")
 			time.Sleep(50*time.Millisecond)
-			
+
 			oi.LongWriteString(stdout, "\r⠼")
 			time.Sleep(50*time.Millisecond)
-			
+
 			oi.LongWriteString(stdout, "\r⠴")
 			time.Sleep(50*time.Millisecond)
-			
+
 			oi.LongWriteString(stdout, "\r⠦")
 			time.Sleep(50*time.Millisecond)
-			
+
 			oi.LongWriteString(stdout, "\r⠧")
 			time.Sleep(50*time.Millisecond)
-			
+
 			oi.LongWriteString(stdout, "\r⠇")
 			time.Sleep(50*time.Millisecond)
-			
+
 			oi.LongWriteString(stdout, "\r⠏")
 			time.Sleep(50*time.Millisecond)
 		}
 		oi.LongWriteString(stdout, "\r \r\n")
-		
+
 		return nil
 	}
-	
-	
+
+
 	func animateProducerFunc(ctx telnet.Context, name string, args ...string) telsh.Handler{
 		return telsh.PromoteHandlerFunc(animateHandler)
 	}
-	
-	
+
+
 	var animateProducer = ProducerFunc(animateProducerFunc)
 
 Again, note that your "real" work is in the `animateHandlerFunc` func.
 
-Generating PEM Files
+# Generating PEM Files
 
 If you are using the telnet.ListenAndServeTLS func or the telnet.Server.ListenAndServeTLS method, you will need to
 supply "cert.pem" and "key.pem" files.
@@ -239,7 +232,6 @@ that were bound to the hosts `127.0.0.1` and `localhost`:
 
 	go run /usr/local/go/src/crypto/tls/generate_cert.go --ca --host='127.0.0.1,localhost'
 
-
 If you are not sure where "generate_cert.go" is on your computer, on Linux and Unix based systems, you might
 be able to find the file with the command:
 
@@ -247,48 +239,45 @@ be able to find the file with the command:
 
 (If it finds it, it should output the full path to this file.)
 
-
-Example TELNET Client
+# Example TELNET Client
 
 You can make a simple (un-secure) TELNET client with code like the following:
 
 	package main
-	
-	
+
+
 	import (
 		"github.com/reiver/go-telnet"
 	)
-	
-	
+
+
 	func main() {
 		var caller telnet.Caller = telnet.StandardCaller
-		
+
 		//@TOOD: replace "example.net:5555" with address you want to connect to.
 		telnet.DialToAndCall("example.net:5555", caller)
 	}
 
-
-Example TELNETS Client
+# Example TELNETS Client
 
 You can make a simple (secure) TELNETS client with code like the following:
 
 	package main
-	
-	
+
+
 	import (
 		"github.com/reiver/go-telnet"
 	)
-	
-	
+
+
 	func main() {
 		var caller telnet.Caller = telnet.StandardCaller
-		
+
 		//@TOOD: replace "example.net:5555" with address you want to connect to.
 		telnet.DialToAndCallTLS("example.net:5555", caller)
 	}
 
-
-TELNET Story
+# TELNET Story
 
 The TELNET protocol is best known for providing a means of connecting to a remote computer, using a (text-based) shell interface, and being able to interact with it, (more or less) as if you were sitting at that computer.
 
@@ -296,8 +285,7 @@ The TELNET protocol is best known for providing a means of connecting to a remot
 
 Although this was the original usage of the TELNET protocol, it can be (and is) used for other purposes as well.
 
-
-The Era
+# The Era
 
 The TELNET protocol came from an era in computing when text-based shell interface where the common way of interacting with computers.
 
@@ -305,8 +293,7 @@ The common interface for computers during this era was a keyboard and a monochro
 
 (The word "video" in that era of computing did not refer to things such as movies. But instead was meant to contrast it with paper. In particular, the teletype machines, which were typewriter like devices that had a keyboard, but instead of having a monitor had paper that was printed onto.)
 
-
-Early Office Computers
+# Early Office Computers
 
 In that era, in the early days of office computers, it was rare that an individual would have a computer at their desk. (A single computer was much too expensive.)
 
@@ -326,13 +313,11 @@ The different types of video terminals had named such as:
 
 ("VT" in those named was short for "video terminal".)
 
-
-Teletype
+# Teletype
 
 To understand this era, we need to go back a bit in time to what came before it: teletypes.
 
-
-Terminal Codes
+# Terminal Codes
 
 Terminal codes (also sometimes called 'terminal control codes') are used to issue various kinds of commands
 to the terminal.
@@ -342,8 +327,7 @@ and the two should NOT be conflated or confused.)
 
 The most common types of 'terminal codes' are the 'ANSI escape codes'. (Although there are other types too.)
 
-
-ANSI Escape Codes
+# ANSI Escape Codes
 
 ANSI escape codes (also sometimes called 'ANSI escape sequences') are a common type of 'terminal code' used
 to do things such as:
@@ -364,8 +348,7 @@ to do things such as:
 
 • setting keyboard strings.
 
-
-Setting The Foreground Color With ANSI Escape Codes
+# Setting The Foreground Color With ANSI Escape Codes
 
 One of the abilities of ANSI escape codes is to set the foreground color.
 
@@ -386,8 +369,7 @@ Here is a table showing codes for this:
 is the "escape" character) where the third and fouth characters are the
 **not** number literals, but instead character literals `'3'` and whatever.)
 
-
-Setting The Background Color With ANSI Escape Codes
+# Setting The Background Color With ANSI Escape Codes
 
 Another of the abilities of ANSI escape codes is to set the background color.
 
@@ -406,7 +388,7 @@ Another of the abilities of ANSI escape codes is to set the background color.
 is the "escape" character) where the third and fouth characters are the
 **not** number literals, but instead character literals `'4'` and whatever.)
 
-Using ANSI Escape Codes
+# Using ANSI Escape Codes
 
 In Go code, if I wanted to use an ANSI escape code to use a blue background,
 a white foreground, and bold, I could do that with the ANSI escape code:
@@ -433,11 +415,11 @@ To show this in a more complete example, our `dateHandlerFunc` from before could
 	func dateHandlerFunc(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string) error {
 		const layout = "Mon Jan 2 15:04:05 -0700 MST 2006"
 		s := "\x1b[44;37;1m" + time.Now().Format(layout) + "\x1b[0m"
-		
+
 		if _, err := oi.LongWriteString(stdout, s); nil != err {
 			return err
 		}
-		
+
 		return nil
 	}
 
@@ -445,6 +427,5 @@ Note that in that example, in addition to using the ANSI escape sequence "\x1b[4
 to set the background color to blue, set the foreground color to white, and make it bold,
 we also used the ANSI escape sequence "\x1b[0m" to reset the background and foreground colors
 and boldness back to "normal".
-
 */
 package telnet

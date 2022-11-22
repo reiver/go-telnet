@@ -1,8 +1,7 @@
 package telsh
 
-
 import (
-	"github.com/reiver/go-telnet"
+	"github.com/matjam/go-telnet"
 
 	"bytes"
 	"strings"
@@ -10,19 +9,16 @@ import (
 	"testing"
 )
 
-
 func TestServeTELNETCommandNotFound(t *testing.T) {
 
-	tests := []struct{
+	tests := []struct {
 		ClientSends string
-		Expected   string
+		Expected    string
 	}{
 		{
 			ClientSends: "\r\n",
-			Expected: "",
+			Expected:    "",
 		},
-
-
 
 		{
 			ClientSends: "apple\r\n",
@@ -37,55 +33,46 @@ func TestServeTELNETCommandNotFound(t *testing.T) {
 			Expected:    "cherry: command not found\r\n",
 		},
 
-
-
 		{
 			ClientSends: "\t\r\n",
-			Expected: "",
+			Expected:    "",
 		},
 		{
 			ClientSends: "\t\t\r\n",
-			Expected: "",
+			Expected:    "",
 		},
 		{
 			ClientSends: "\t\t\t\r\n",
-			Expected: "",
+			Expected:    "",
 		},
-
-
 
 		{
 			ClientSends: " \r\n",
-			Expected: "",
+			Expected:    "",
 		},
 		{
 			ClientSends: "  \r\n",
-			Expected: "",
+			Expected:    "",
 		},
 		{
 			ClientSends: "   \r\n",
-			Expected: "",
+			Expected:    "",
 		},
-
-
 
 		{
 			ClientSends: " \t\r\n",
-			Expected: "",
+			Expected:    "",
 		},
 		{
 			ClientSends: "\t \r\n",
-			Expected: "",
+			Expected:    "",
 		},
-
-
 
 		{
 			ClientSends: "ls -alF\r\n",
 			Expected:    "ls: command not found\r\n",
 		},
 	}
-
 
 	for testNumber, test := range tests {
 
@@ -94,7 +81,6 @@ func TestServeTELNETCommandNotFound(t *testing.T) {
 			t.Errorf("For test #%d, did not expect to get nil, but actually got it: %v; for client sent: %q", testNumber, shellHandler, test.ClientSends)
 			continue
 		}
-
 
 		ctx := telnet.NewContext()
 

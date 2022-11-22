@@ -1,7 +1,6 @@
 package telnet
 
-
-type Logger interface{
+type Logger interface {
 	Debug(...interface{})
 	Debugf(string, ...interface{})
 

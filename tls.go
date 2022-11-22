@@ -1,11 +1,9 @@
 package telnet
 
-
 import (
 	"crypto/tls"
 	"net"
 )
-
 
 // ListenAndServeTLS acts identically to ListenAndServe, except that it
 // uses the TELNET protocol over TLS.
@@ -18,16 +16,16 @@ import (
 // For a very simple example:
 //
 //	package main
-//	
+//
 //	import (
 //		"github.com/reiver/go-telnet"
 //	)
-//	
+//
 //	func main() {
-//		
+//
 //		//@TODO: In your code, you would probably want to use a different handler.
 //		var handler telnet.Handler = telnet.EchoHandler
-//		
+//
 //		err := telnet.ListenAndServeTLS(":5555", "cert.pem", "key.pem", handler)
 //		if nil != err {
 //			//@TODO: Handle this error better.
@@ -38,8 +36,6 @@ func ListenAndServeTLS(addr string, certFile string, keyFile string, handler Han
 	server := &Server{Addr: addr, Handler: handler}
 	return server.ListenAndServeTLS(certFile, keyFile)
 }
-
-
 
 // ListenAndServeTLS acts identically to ListenAndServe, except that it
 // uses the TELNET protocol over TLS.
@@ -53,12 +49,10 @@ func (server *Server) ListenAndServeTLS(certFile string, keyFile string) error {
 		addr = ":telnets"
 	}
 
-
 	listener, err := net.Listen("tcp", addr)
 	if nil != err {
 		return err
 	}
-
 
 	// Apparently have to make a copy of the TLS config this way, rather than by
 	// simple assignment, to prevent some unexported fields from being copied over.
@@ -93,7 +87,6 @@ func (server *Server) ListenAndServeTLS(certFile string, keyFile string) error {
 		}
 	}
 
-
 	tlsConfigHasCertificate := len(tlsConfig.Certificates) > 0 || nil != tlsConfig.GetCertificate
 	if "" == certFile || "" == keyFile || !tlsConfigHasCertificate {
 		tlsConfig.Certificates = make([]tls.Certificate, 1)
@@ -105,9 +98,7 @@ func (server *Server) ListenAndServeTLS(certFile string, keyFile string) error {
 		}
 	}
 
-
 	tlsListener := tls.NewListener(listener, tlsConfig)
-
 
 	return server.Serve(tlsListener)
 }

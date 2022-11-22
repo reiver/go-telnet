@@ -1,6 +1,5 @@
 package telnet
 
-
 // A Caller represents the client end of a TELNET (or TELNETS) connection.
 //
 // Writing data to the Writer passed as an argument to the CallTELNET method

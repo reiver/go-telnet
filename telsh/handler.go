@@ -1,10 +1,8 @@
 package telsh
 
-
 import (
 	"io"
 )
-
 
 // Hander is an abstraction that represents a "running" shell "command".
 //
@@ -28,23 +26,22 @@ type Handler interface {
 	StderrPipe() (io.ReadCloser, error)
 }
 
-
 // HandlerFunc is useful to write inline Producers, and provides an alternative to
 // creating something that implements Handler directly.
 //
 // For example:
 //
 //	shellHandler := telsh.NewShellHandler()
-//	
+//
 //	shellHandler.Register("five", telsh.ProducerFunc(
-//		
+//
 //		func(ctx telnet.Context, name string, args ...string) telsh.Handler{
-//		
+//
 //			return telsh.PromoteHandlerFunc(
-//				
+//
 //				func(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string) error {
 //					oi.LongWrite(stdout, []byte{'5', '\r', '\n'})
-//					
+//
 //					return nil
 //				},
 //			)
@@ -52,12 +49,11 @@ type Handler interface {
 //	))
 //
 // Note that PromoteHandlerFunc is used to turn a HandlerFunc into a Handler.
-type HandlerFunc func(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string)error
-
+type HandlerFunc func(stdin io.ReadCloser, stdout io.WriteCloser, stderr io.WriteCloser, args ...string) error
 
 type internalPromotedHandlerFunc struct {
-	err error
-	fn HandlerFunc
+	err    error
+	fn     HandlerFunc
 	stdin  io.ReadCloser
 	stdout io.WriteCloser
 	stderr io.WriteCloser
@@ -69,12 +65,11 @@ type internalPromotedHandlerFunc struct {
 	args []string
 }
 
-
 // PromoteHandlerFunc turns a HandlerFunc into a Handler.
 func PromoteHandlerFunc(fn HandlerFunc, args ...string) Handler {
-	stdin,      stdinPipe := io.Pipe()
-	stdoutPipe, stdout    := io.Pipe()
-	stderrPipe, stderr    := io.Pipe()
+	stdin, stdinPipe := io.Pipe()
+	stdoutPipe, stdout := io.Pipe()
+	stderrPipe, stderr := io.Pipe()
 
 	argsCopy := make([]string, len(args))
 	for i, datum := range args {
@@ -82,31 +77,30 @@ func PromoteHandlerFunc(fn HandlerFunc, args ...string) Handler {
 	}
 
 	handler := internalPromotedHandlerFunc{
-		err:nil,
+		err: nil,
 
-		fn:fn,
+		fn: fn,
 
-		stdin:stdin,
-		stdout:stdout,
-		stderr:stderr,
+		stdin:  stdin,
+		stdout: stdout,
+		stderr: stderr,
 
-		stdinPipe:stdinPipe,
-		stdoutPipe:stdoutPipe,
-		stderrPipe:stderrPipe,
+		stdinPipe:  stdinPipe,
+		stdoutPipe: stdoutPipe,
+		stderrPipe: stderrPipe,
 
-		args:argsCopy,
+		args: argsCopy,
 	}
 
 	return &handler
 }
-
 
 func (handler *internalPromotedHandlerFunc) Run() error {
 	if nil != handler.err {
 		return handler.err
 	}
 
-	handler.err =  handler.fn(handler.stdin, handler.stdout, handler.stderr, handler.args...)
+	handler.err = handler.fn(handler.stdin, handler.stdout, handler.stderr, handler.args...)
 
 	handler.stdin.Close()
 	handler.stdout.Close()

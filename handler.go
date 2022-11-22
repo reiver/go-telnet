@@ -1,6 +1,5 @@
 package telnet
 
-
 // A Handler serves a TELNET (or TELNETS) connection.
 //
 // Writing data to the Writer passed as an argument to the ServeTELNET method

@@ -1,33 +1,28 @@
 package telsh
 
-
 import (
+	"github.com/matjam/go-telnet"
 	"github.com/reiver/go-oi"
-	"github.com/reiver/go-telnet"
 
 	"io"
 	"sort"
 )
 
-
 type internalHelpProducer struct {
 	shellHandler *ShellHandler
 }
 
-
 func Help(shellHandler *ShellHandler) Producer {
 	producer := internalHelpProducer{
-		shellHandler:shellHandler,
+		shellHandler: shellHandler,
 	}
 
 	return &producer
 }
 
-
 func (producer *internalHelpProducer) Produce(telnet.Context, string, ...string) Handler {
 	return newHelpHandler(producer)
 }
-
 
 type internalHelpHandler struct {
 	helpProducer *internalHelpProducer
@@ -43,31 +38,27 @@ type internalHelpHandler struct {
 	stderrPipe io.ReadCloser
 }
 
-
 func newHelpHandler(helpProducer *internalHelpProducer) *internalHelpHandler {
-	stdin,      stdinPipe := io.Pipe()
-	stdoutPipe, stdout    := io.Pipe()
-	stderrPipe, stderr    := io.Pipe()
+	stdin, stdinPipe := io.Pipe()
+	stdoutPipe, stdout := io.Pipe()
+	stderrPipe, stderr := io.Pipe()
 
 	handler := internalHelpHandler{
-		helpProducer:helpProducer,
+		helpProducer: helpProducer,
 
-		err:nil,
+		err: nil,
 
-		stdin:stdin,
-		stdout:stdout,
-		stderr:stderr,
+		stdin:  stdin,
+		stdout: stdout,
+		stderr: stderr,
 
-		stdinPipe:stdinPipe,
-		stdoutPipe:stdoutPipe,
-		stderrPipe:stderrPipe,
+		stdinPipe:  stdinPipe,
+		stdoutPipe: stdoutPipe,
+		stderrPipe: stderrPipe,
 	}
 
 	return &handler
 }
-
-
-
 
 func (handler *internalHelpHandler) Run() error {
 	if nil != handler.err {
@@ -76,8 +67,8 @@ func (handler *internalHelpHandler) Run() error {
 
 	//@TODO: Should this be reaching inside of ShellHandler? Maybe there should be ShellHandler public methods instead.
 	keys := make([]string, 1+len(handler.helpProducer.shellHandler.producers))
-	i:=0
-	for key,_ := range handler.helpProducer.shellHandler.producers {
+	i := 0
+	for key, _ := range handler.helpProducer.shellHandler.producers {
 		keys[i] = key
 		i++
 	}
