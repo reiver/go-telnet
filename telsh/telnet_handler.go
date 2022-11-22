@@ -212,24 +212,33 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, writer telnet
 
 			//@TODO: Wire up the stdin, stdout, stderr of the handler.
 
+			var stdoutDone chan bool
 			if stdoutPipe, err := handler.StdoutPipe(); nil != err {
 				//@TODO:
 			} else if nil == stdoutPipe {
 				//@TODO:
 			} else {
-				connect(ctx, writer, stdoutPipe)
+				stdoutDone = connect(ctx, writer, stdoutPipe)
 			}
 
+			var stderrDone chan bool
 			if stderrPipe, err := handler.StderrPipe(); nil != err {
 				//@TODO:
 			} else if nil == stderrPipe {
 				//@TODO:
 			} else {
-				connect(ctx, writer, stderrPipe)
+				stderrDone = connect(ctx, writer, stderrPipe)
 			}
 
 			if err := handler.Run(); nil != err {
 				//@TODO:
+			}
+
+			if stdoutDone != nil {
+				<-stdoutDone
+			}
+			if stderrDone != nil {
+				<-stderrDone
 			}
 			line.Reset()
 			if _, err := oi.LongWrite(writer, promptBytes); nil != err {
@@ -247,10 +256,13 @@ func (telnetHandler *ShellHandler) ServeTELNET(ctx telnet.Context, writer telnet
 	return
 }
 
-func connect(ctx telnet.Context, writer io.Writer, reader io.Reader) {
+func connect(ctx telnet.Context, writer io.Writer, reader io.Reader) chan bool {
 
 	logger := ctx.Logger()
 
+	// Create a buffer to avoid the goroutine to be blocked.
+	// The goroutine may leave whenever its job is done.
+	done := make(chan bool, 1)
 	go func(logger telnet.Logger) {
 
 		var buffer [1]byte // Seems like the length of the buffer needs to be small, otherwise will have to wait for buffer to fill up.
@@ -270,5 +282,7 @@ func connect(ctx telnet.Context, writer io.Writer, reader io.Reader) {
 			oi.LongWrite(writer, p)
 			//logger.Tracef("Sent: %q.", p)
 		}
+		done <- true
 	}(logger)
+	return done
 }
